@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tXEAOfpGyhgD49vdI+oS4LwYp2UkaO9frurNeYrfIOw1A5Fue8DIvGjP+jxZTlFog4dijSvpHEoeDlYlYaCcYA==",
+  "dgSpecHash": "BK6AdzlFfttoxCqvLZ/A/ohPGMg8N5PxpfjZCfpIJ4YgVw5teVBy13Bl/D/3FpYCmrcie5GvodkHZvEXzrptAQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj",
+  "projectFilePath": "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\user\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.0\\microsoft.entityframeworkcore.7.0.0.nupkg.sha512",
     "C:\\Users\\user\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.0\\microsoft.entityframeworkcore.abstractions.7.0.0.nupkg.sha512",

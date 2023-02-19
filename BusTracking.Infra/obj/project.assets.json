@@ -3211,11 +3211,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Infra\\BusTracking.Infra.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Infra\\BusTracking.Infra.csproj",
       "projectName": "BusTracking.Infra",
-      "projectPath": "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Infra\\BusTracking.Infra.csproj",
+      "projectPath": "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Infra\\BusTracking.Infra.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Infra\\obj\\",
+      "outputPath": "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Infra\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3233,8 +3233,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj": {
-              "projectPath": "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj"
+            "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj": {
+              "projectPath": "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj"
             }
           }
         }

@@ -20,7 +20,7 @@ namespace BusTracking.Infra.Repository
 		}
 		public IEnumerable<Absence?> GetAllAbsences()
 		{
-			return _dbContext.Connection.Query<Absence?>("ABSENCE_PACKAGE.GET_ALL_ABSENCE", commandType: CommandType.StoredProcedure).ToList();
+			return _dbContext.Connection.Query<Absence?>("ABSENCE_PACKAGE.GET_ALL_ABSENCES", commandType: CommandType.StoredProcedure).ToList();
 		}
 		public Absence? GetAbsenceById(int id)
 		{

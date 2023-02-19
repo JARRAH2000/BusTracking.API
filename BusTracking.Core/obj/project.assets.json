@@ -1405,11 +1405,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj",
       "projectName": "BusTracking.Core",
-      "projectPath": "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj",
+      "projectPath": "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Core\\BusTracking.Core.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\source\\repos\\BusTracking.API\\BusTracking.Core\\obj\\",
+      "outputPath": "C:\\Users\\user\\Git-Hub\\BusTracking.API\\BusTracking.API\\BusTracking.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
