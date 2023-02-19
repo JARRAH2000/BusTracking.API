@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Q7xppxFEAxn+scONybNaElnjfTjYDXAYzM6mjGO7mVs=",
+  "Source": "BusTracking.API",
+  "BasePath": "_content/BusTracking.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
