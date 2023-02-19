@@ -27,15 +27,17 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { ABID = id });
 			return _dbContext.Connection.Query<Absence?>("ABSENCE_PACKAGE.GET_ABSENCE_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
-		public void CreateAbsence(Absence absence)
+		public int CreateAbsence(Absence absence)
 		{
 			DynamicParameters parameters = new DynamicParameters(new
 			{
 				CHECKTIME = absence.Checkingtime,
 				TECHER = absence.Techerid,
-				STUDENT = absence.Studentid
+				STUDENT = absence.Studentid,
+				ABSENCEID = absence.Id
 			});
 			_dbContext.Connection.Execute("ABSENCE_PACKAGE.CREATE_ABSENCE", parameters, commandType: CommandType.StoredProcedure);
+			return (int)parameters.Get<decimal>("ABSENCEID");
 		}
 		public void UpdateAbsence(Absence absence)
 		{

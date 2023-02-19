@@ -24,9 +24,9 @@ namespace BusTracking.Infra.Service
 		{
 			return _absenceRepository.GetAbsenceById(id);
 		}
-		public void CreateAbsence(Absence absence)
+		public int CreateAbsence(Absence absence)
 		{
-			_absenceRepository.CreateAbsence(absence);
+			return _absenceRepository.CreateAbsence(absence);
 		}
 		public void UpdateAbsence(Absence absence)
 		{
