@@ -1,4 +1,5 @@
-﻿using BusTracking.Core.Repository;
+﻿using BusTracking.Core.Data;
+using BusTracking.Core.Repository;
 using BusTracking.Core.Service;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,26 @@ namespace BusTracking.Infra.Service
 		public AbsenceService(IAbsenceRepository absenceRepository)
 		{
 			_absenceRepository = absenceRepository;
+		}
+		public IEnumerable<Absence?> GetAllAbsences()
+		{
+			return _absenceRepository.GetAllAbsences();
+		}
+		public Absence? GetAbsenceById(int id)
+		{
+			return _absenceRepository.GetAbsenceById(id);
+		}
+		public void CreateAbsence(Absence absence)
+		{
+			_absenceRepository.CreateAbsence(absence);
+		}
+		public void UpdateAbsence(Absence absence)
+		{
+			_absenceRepository.UpdateAbsence(absence);
+		}
+		public void DeleteAbsence(int id)
+		{
+			_absenceRepository.DeleteAbsence(id);
 		}
 	}
 }

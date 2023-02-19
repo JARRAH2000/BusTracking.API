@@ -1,0 +1,43 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using BusTracking.Core.Service;
+using BusTracking.Core.Data;
+
+namespace BusTracking.API.Controllers
+{
+	[Route("api/[controller]")]
+	[ApiController]
+	public class AbsenceController : ControllerBase
+	{
+		private readonly IAbsenceService _absenceService;
+		public AbsenceController(IAbsenceService absenceService)
+		{
+			_absenceService = absenceService;
+		}
+		[HttpGet("GetAllAbsebces")]
+		public IEnumerable<Absence?> GetAllAbsences()
+		{
+			return _absenceService.GetAllAbsences();
+		}
+		[HttpGet("GetAbsenceById/{id}")]
+		public Absence? GetAbsenceById(int id)
+		{
+			return _absenceService.GetAbsenceById(id);
+		}
+		[HttpPost("CreateAbsence")]
+		public void CreateAbsence(Absence absence)
+		{
+			_absenceService.CreateAbsence(absence);
+		}
+		[HttpPut("UpdateAbsence")]
+		public void UpdateAbsence(Absence absence)
+		{
+			_absenceService.UpdateAbsence(absence);
+		}
+		[HttpDelete("DeleteAbsence/{id}")]
+		public void DeleteAbsence(int id)
+		{
+			_absenceService.DeleteAbsence(id);
+		}
+	}
+}
