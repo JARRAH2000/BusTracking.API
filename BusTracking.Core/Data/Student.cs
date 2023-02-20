@@ -31,7 +31,7 @@ public partial class Student
 
     public string? Toschoolnotify { get; set; } = null!;
 
-    public decimal? Paretnid { get; set; }
+    public decimal? Parentid { get; set; }
 
     public decimal? Statusid { get; set; }
 
@@ -39,7 +39,7 @@ public partial class Student
 
     public virtual ICollection<Notification> Notifications { get; } = new List<Notification>();
 
-    public virtual Parent? Paretn { get; set; }
+    public virtual Parent? Parent { get; set; }
 
     public virtual Studentstatus? Status { get; set; }
 

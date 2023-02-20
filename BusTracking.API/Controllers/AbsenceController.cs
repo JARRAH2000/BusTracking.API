@@ -14,7 +14,7 @@ namespace BusTracking.API.Controllers
 		{
 			_absenceService = absenceService;
 		}
-		[HttpGet("GetAllAbsebces")]
+		[HttpGet("GetAllAbsences")]
 		public IEnumerable<Absence?> GetAllAbsences()
 		{
 			return _absenceService.GetAllAbsences();

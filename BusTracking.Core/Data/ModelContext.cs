@@ -46,7 +46,7 @@ public partial class ModelContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseOracle("User Id=JOR15_User76;PASSWORD=Test321;DATA SOURCE=94.56.229.181:3488/traindb");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -71,17 +71,17 @@ public partial class ModelContext : DbContext
             entity.Property(e => e.Studentid)
                 .HasColumnType("NUMBER(38)")
                 .HasColumnName("STUDENTID");
-            entity.Property(e => e.Techerid)
+            entity.Property(e => e.Teacherid)
                 .HasColumnType("NUMBER(38)")
-                .HasColumnName("TECHERID");
+                .HasColumnName("TEACHERID");
 
             entity.HasOne(d => d.Student).WithMany(p => p.Absences)
                 .HasForeignKey(d => d.Studentid)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("SYS_C00324505");
 
-            entity.HasOne(d => d.Techer).WithMany(p => p.Absences)
-                .HasForeignKey(d => d.Techerid)
+            entity.HasOne(d => d.Teacher).WithMany(p => p.Absences)
+                .HasForeignKey(d => d.Teacherid)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("SYS_C00324504");
         });
@@ -328,9 +328,9 @@ public partial class ModelContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("NAME");
-            entity.Property(e => e.Paretnid)
+            entity.Property(e => e.Parentid)
                 .HasColumnType("NUMBER(38)")
-                .HasColumnName("PARETNID");
+                .HasColumnName("PARENTID");
             entity.Property(e => e.Sex)
                 .HasMaxLength(1)
                 .IsUnicode(false)
@@ -350,8 +350,8 @@ public partial class ModelContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("TOSCHOOLNOTIFY");
 
-            entity.HasOne(d => d.Paretn).WithMany(p => p.Students)
-                .HasForeignKey(d => d.Paretnid)
+            entity.HasOne(d => d.Parent).WithMany(p => p.Students)
+                .HasForeignKey(d => d.Parentid)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("SYS_C00324499");
 

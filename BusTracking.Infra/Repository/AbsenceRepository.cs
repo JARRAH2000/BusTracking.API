@@ -32,7 +32,7 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new
 			{
 				CHECKTIME = absence.Checkingtime,
-				TECHER = absence.Techerid,
+				TECHER = absence.Teacherid,
 				STUDENT = absence.Studentid,
 				ABSENCEID = absence.Id
 			});
@@ -45,7 +45,7 @@ namespace BusTracking.Infra.Repository
 			{
 				ABID = absence.Id,
 				CHECKTIME = absence.Checkingtime,
-				TECHER = absence.Techerid,
+				TECHER = absence.Teacherid,
 				STUDENT = absence.Studentid
 			});
 			_dbContext.Connection.Execute("ABSENCE_PACKAGE.UPDATE_ABSENCE", parameters, commandType: CommandType.StoredProcedure);

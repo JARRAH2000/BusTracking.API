@@ -46,7 +46,7 @@ namespace BusTracking.Infra.Repository
 				INSCHOOL = student.Inschoolnotify,
 				TOHOME = student.Tohomenotify,
 				TOSCHOOL = student.Toschoolnotify,
-				PID = student.Paretnid,
+				PID = student.Parentid,
 				STATID = student.Statusid,
 				STUDENTID = student.Id
 			});
