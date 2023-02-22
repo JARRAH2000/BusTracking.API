@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BusTracking.Core.Service;
 using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 
 namespace BusTracking.API.Controllers
 {
@@ -38,6 +39,11 @@ namespace BusTracking.API.Controllers
 		public void DeleteTrip(int id)
 		{
 			_tripService.DeleteTrip(id);
+		}
+		[HttpGet("GetTripDetails/{id}")]
+		public TripDetails? GetTripDetails(int id)
+		{
+			return _tripService.GetTripDetails(id);
 		}
 	}
 }

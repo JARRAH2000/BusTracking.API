@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace BusTracking.Core.Service
 		int CreateTrip(Trip trip);
 		void UpdateTrip(Trip trip);
 		void DeleteTrip(int id);
+		TripDetails? GetTripDetails(int id);
 	}
 }

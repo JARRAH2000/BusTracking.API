@@ -1,4 +1,5 @@
 ﻿using BusTracking.Core.Data;
+using BusTracking.Core.DTO;
 using BusTracking.Core.Repository;
 using BusTracking.Core.Service;
 using System;
@@ -35,6 +36,10 @@ namespace BusTracking.Infra.Service
 		public void DeleteTrip(int id)
 		{
 			_tripRepository.DeleteTrip(id);
+		}
+		public TripDetails? GetTripDetails(int id)
+		{
+			return _tripRepository.GetTripDetails(id);
 		}
 	}
 }

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using BusTracking.Core.DTO;
+
 namespace BusTracking.Infra.Repository
 {
 	public class TripRepository:ITripRepository
@@ -60,6 +62,11 @@ namespace BusTracking.Infra.Repository
 		{
 			DynamicParameters parameters = new DynamicParameters(new { TRIPID = id });
 			_dbContext.Connection.Execute("TRIP_PACKAGE.DELETE_TRIP", parameters, commandType: CommandType.StoredProcedure);
+		}
+		public TripDetails? GetTripDetails(int id)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { TRIPID = id });
+			return _dbContext.Connection.Query<TripDetails?>("TRIP_PACKAGE.TRIP_DETAILS", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
 	}
 }
