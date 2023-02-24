@@ -1,3 +1,4 @@
+using BusTracking.API.Settings;
 using BusTracking.Core.Common;
 using BusTracking.Core.Repository;
 using BusTracking.Core.Service;
@@ -5,6 +6,8 @@ using BusTracking.Infra.Common;
 using BusTracking.Infra.Repository;
 using BusTracking.Infra.Service;
 
+
+using BusTracking.Core.Mail;
 namespace BusTracking.API
 {
 	public class Program
@@ -39,7 +42,9 @@ namespace BusTracking.API
 			builder.Services.AddScoped<IEmployeeStatusRepository, EmployeeStatusRepository>();
 			builder.Services.AddScoped<ITripDirectionRepository, TripDirectionRepository>();
 			builder.Services.AddScoped<IStudentStatusRepository, StudentStatusRepository>();
-
+			builder.Services.AddScoped<IContentRepository, ContentRepository>();
+			builder.Services.AddScoped<IContactRepository, ContactRepository>();
+			builder.Services.AddScoped<ITestimonialRepository, TestimonialRepository>();
 			//Services
 			builder.Services.AddScoped<IRoleService, RoleService>();
 			builder.Services.AddScoped<IUserService, UserService>();
@@ -56,7 +61,16 @@ namespace BusTracking.API
 			builder.Services.AddScoped<IEmployeeStatusService, EmployeeStatusService>();
 			builder.Services.AddScoped<ITripDirectionService, TripDirectionService>();
 			builder.Services.AddScoped<IStudentStatusService, StudentStatusService>();
+			builder.Services.AddScoped<IContentService, ContentService>();
+			builder.Services.AddScoped<IContactService, ContactService>();
+			builder.Services.AddScoped<ITestimonialService, TestimonialService>();
 
+			//Mail Setting
+			//builder.Services.Configure<MailCredentials>(options => builder.Configuration.GetSection("MailSetting").Bind(options));
+			builder.Services.AddScoped<IMailCredentials,MailCredentials>();
+			builder.Services.AddScoped<IMailSender, MailSender>();
+			///**
+			
 
 			var app = builder.Build();
 

@@ -3,6 +3,7 @@ using BusTracking.Core.DTO;
 using BusTracking.Core.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.Xml;
 
 namespace BusTracking.API.Controllers
 {
@@ -77,6 +78,18 @@ namespace BusTracking.API.Controllers
 		public void DeleteUser(int id)
 		{
 			_userService.DeleteUser(id);
+		}
+		[HttpPost("UploadUserImage")]
+		public User UploadUserImage()
+		{
+			IFormFile formFile = Request.Form.Files[0];
+			string fileName = Guid.NewGuid().ToString() + "_" + formFile.FileName;
+			string fullPath = Path.Combine("Images/Users", fileName);
+			using(FileStream stream=new FileStream(fullPath,FileMode.Create))
+			{
+				formFile.CopyTo(stream);
+			}
+			return new User { Image = fileName };
 		}
 	}
 }

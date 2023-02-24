@@ -19,4 +19,10 @@
     <ProjectReference Include="..\BusTracking.Infra\BusTracking.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\Buses\" />
+    <Folder Include="Images\Students\" />
+    <Folder Include="Images\Users\" />
+  </ItemGroup>
+
 </Project>

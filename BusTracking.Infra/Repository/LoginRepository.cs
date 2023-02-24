@@ -9,15 +9,22 @@ using System.Threading.Tasks;
 using System.Data;
 using Dapper;
 using BusTracking.Core.DTO;
+using BusTracking.API.Settings;
+using BusTracking.Infra.Service;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
+using BusTracking.Core.Mail;
 
 namespace BusTracking.Infra.Repository
 {
 	public class LoginRepository:ILoginRepository
 	{
 		private readonly IDbContext _dbContext;
-		public LoginRepository(IDbContext dbContext)
+		private readonly IMailCredentials _mailCredentials;
+		public LoginRepository(IDbContext dbContext,IMailCredentials mailCredentials)
 		{
 			_dbContext = dbContext;
+			_mailCredentials = mailCredentials;
 		}
 		public Login? VerifyinLogin(Login login)
 		{
@@ -25,12 +32,15 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { USERNAME = login.Email, SECRET = login.Password });
 			return _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.VERIFYING_LOGIN", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
 		}
-		public void CreateLogin(Login login)
+		public async Task CreateLogin(Login login)
 		{
 			DynamicParameters parameters = new DynamicParameters(new { USERNAME = login.Email, SECRET = login.Password, UID = login.Userid });
 			try
 			{ 
 				_dbContext.Connection.Execute("LOGIN_PACKAGE.CREATE_LOGIN", parameters, commandType: CommandType.StoredProcedure);
+
+				MailSender mailSender = new(_mailCredentials);
+				await mailSender.SendEmailAsync(login.Email, "Login", "Hello welcome");
 			}
 			catch (Exception)
 			{

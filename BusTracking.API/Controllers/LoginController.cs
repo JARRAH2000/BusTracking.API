@@ -24,9 +24,9 @@ namespace BusTracking.API.Controllers
 			//Unauthorized();
 		}
 		[HttpPost("CreateLogin")]
-		public void CreateLogin(Login login)
+		public async Task CreateLogin(Login login)
 		{
-			_loginService.CreateLogin(login);
+			await _loginService.CreateLogin(login);
 		}
 		[HttpPut("UpdateLogin")]
 		public void UpdateLogin(UpdateLoginData loginDate)

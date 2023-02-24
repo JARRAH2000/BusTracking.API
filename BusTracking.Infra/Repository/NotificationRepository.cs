@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Security.Cryptography;
+using MailKit;
+using BusTracking.Infra.Service;
+using BusTracking.API.Settings;
+using Microsoft.Extensions.Options;
 
 namespace BusTracking.Infra.Repository
 {
@@ -35,7 +39,8 @@ namespace BusTracking.Infra.Repository
 				SENDTIM = notification.Sendtime,
 				MESSAG = notification.Message,
 				STUDENTI = notification.Studentid,
-				TRIPI = notification.Tripid
+				TRIPI = notification.Tripid,
+				NOTIFICATIONID = notification.Id
 			});
 			_dbContext.Connection.Execute("NOTIFICATION_PACKAGE.CREATE_NOTIFICATION", parameters, commandType: CommandType.StoredProcedure);
 		}

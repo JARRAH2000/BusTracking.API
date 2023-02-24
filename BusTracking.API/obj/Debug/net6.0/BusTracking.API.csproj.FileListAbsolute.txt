@@ -200,3 +200,6 @@ C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\obj\Debug\
 C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\obj\Debug\net6.0\BusTracking.API.pdb
 C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\obj\Debug\net6.0\BusTracking.API.genruntimeconfig.cache
 C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\obj\Debug\net6.0\ref\BusTracking.API.dll
+C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\bin\Debug\net6.0\MailKit.dll
+C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\bin\Debug\net6.0\MimeKit.dll
+C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\bin\Debug\net6.0\BouncyCastle.Crypto.dll

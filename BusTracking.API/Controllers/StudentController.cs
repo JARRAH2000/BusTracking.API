@@ -39,5 +39,17 @@ namespace BusTracking.API.Controllers
 		{
 			_studentService.DeleteStudent(id);
 		}
+		[HttpPost("UploadStudentImage")]
+		public Student UploadStudentImage()
+		{
+			IFormFile formFile = Request.Form.Files[0];
+			string fileName = Guid.NewGuid().ToString() + "_" + formFile.FileName;
+			string fullPath = Path.Combine("Images/Students", fileName);
+			using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+			{
+				formFile.CopyTo(stream);
+			}
+			return new Student { Image = fileName };
+		}
 	}
 }

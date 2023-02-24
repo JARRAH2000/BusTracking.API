@@ -45,7 +45,15 @@ public partial class ModelContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	public virtual DbSet<Contact> Contacts { get; set; }
+
+	public virtual DbSet<Content> Contents { get; set; }
+
+	public virtual DbSet<Review> Reviews { get; set; }
+
+	public virtual DbSet<Testimonial> Testimonials { get; set; }
+
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseOracle("User Id=JOR15_User76;PASSWORD=Test321;DATA SOURCE=94.56.229.181:3488/traindb");
 
@@ -561,7 +569,121 @@ public partial class ModelContext : DbContext
                 .HasConstraintName("SYS_C00324413");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+
+		modelBuilder.Entity<Contact>(entity =>
+		{
+			entity.HasKey(e => e.Id).HasName("SYS_C00325255");
+
+			entity.ToTable("CONTACT");
+
+			entity.Property(e => e.Id)
+				.ValueGeneratedOnAdd()
+				.HasColumnType("NUMBER(38)")
+				.HasColumnName("ID");
+			entity.Property(e => e.Email)
+				.HasMaxLength(256)
+				.IsUnicode(false)
+				.HasColumnName("EMAIL");
+			entity.Property(e => e.Message)
+				.HasMaxLength(500)
+				.IsUnicode(false)
+				.HasColumnName("MESSAGE");
+			entity.Property(e => e.Title)
+				.HasMaxLength(50)
+				.IsUnicode(false)
+				.HasColumnName("TITLE");
+		});
+
+		modelBuilder.Entity<Content>(entity =>
+		{
+			entity.HasKey(e => e.Id).HasName("SYS_C00325265");
+
+			entity.ToTable("CONTENT");
+
+			entity.Property(e => e.Id)
+				.ValueGeneratedOnAdd()
+				.HasColumnType("NUMBER(38)")
+				.HasColumnName("ID");
+			entity.Property(e => e.About)
+				.HasMaxLength(256)
+				.IsUnicode(false)
+				.HasColumnName("ABOUT");
+			entity.Property(e => e.Email)
+				.HasMaxLength(256)
+				.IsUnicode(false)
+				.HasColumnName("EMAIL");
+			entity.Property(e => e.Facebook)
+				.HasMaxLength(256)
+				.IsUnicode(false)
+				.HasColumnName("FACEBOOK");
+			entity.Property(e => e.Greeting)
+				.HasMaxLength(256)
+				.IsUnicode(false)
+				.HasColumnName("GREETING");
+			entity.Property(e => e.Mainlogo)
+				.HasMaxLength(256)
+				.IsUnicode(false)
+				.HasColumnName("MAINLOGO");
+			entity.Property(e => e.Paragraph)
+				.HasMaxLength(256)
+				.IsUnicode(false)
+				.HasColumnName("PARAGRAPH");
+			entity.Property(e => e.Telephone)
+				.HasMaxLength(20)
+				.IsUnicode(false)
+				.HasColumnName("TELEPHONE");
+			entity.Property(e => e.Youtube)
+				.HasMaxLength(256)
+				.IsUnicode(false)
+				.HasColumnName("YOUTUBE");
+		});
+
+		modelBuilder.Entity<Review>(entity =>
+		{
+			entity.HasKey(e => e.Id).HasName("SYS_C00325268");
+
+			entity.ToTable("REVIEW");
+
+			entity.HasIndex(e => e.Parentid, "SYS_C00325269").IsUnique();
+
+			entity.Property(e => e.Id)
+				.ValueGeneratedOnAdd()
+				.HasColumnType("NUMBER(38)")
+				.HasColumnName("ID");
+			entity.Property(e => e.Parentid)
+				.HasColumnType("NUMBER(38)")
+				.HasColumnName("PARENTID");
+			entity.Property(e => e.Stars)
+				.HasDefaultValueSql("5 ")
+				.HasColumnType("NUMBER(38)")
+				.HasColumnName("STARS");
+		});
+
+		modelBuilder.Entity<Testimonial>(entity =>
+		{
+			entity.HasKey(e => e.Id).HasName("SYS_C00325262");
+
+			entity.ToTable("TESTIMONIAL");
+
+			entity.Property(e => e.Id)
+				.ValueGeneratedOnAdd()
+				.HasColumnType("NUMBER(38)")
+				.HasColumnName("ID");
+			entity.Property(e => e.Message)
+				.HasMaxLength(500)
+				.IsUnicode(false)
+				.HasColumnName("MESSAGE");
+            entity.Property(e => e.Published)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("PUBLISHED");
+			entity.Property(e => e.Parentid)
+				.HasColumnType("NUMBER(38)")
+				.HasColumnName("PARENTID");
+		});
+
+		OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

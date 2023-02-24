@@ -11,7 +11,7 @@ namespace BusTracking.Core.Repository
 	public interface ILoginRepository
 	{
 		Login? VerifyinLogin(Login login);
-		void CreateLogin(Login login);
+		Task CreateLogin(Login login);
 		void UpdateLogin(UpdateLoginData loginData);
 		void DeleteLogin(int userId);
     }

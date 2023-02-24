@@ -23,9 +23,9 @@ namespace BusTracking.Infra.Service
 			//must create JWT here,may be the return type must be string also to return token
 			return _loginRepository.VerifyinLogin(login);
 		}
-		public void CreateLogin(Login login)
+		public async Task CreateLogin(Login login)
 		{
-			_loginRepository.CreateLogin(login);
+			await _loginRepository.CreateLogin(login);
 		}
 		public void UpdateLogin(UpdateLoginData loginData)
 		{
