@@ -10,7 +10,7 @@ namespace BusTracking.Core.Service
 	{
 		IEnumerable<Absence?> GetAllAbsences();
 		Absence? GetAbsenceById(int id);
-		int CreateAbsence(Absence absence);
+		Task CreateAbsence(Absence absence);
 		void UpdateAbsence(Absence absence);
 		void DeleteAbsence(int id);
 	}

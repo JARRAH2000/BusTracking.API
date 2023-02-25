@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusTracking.Core.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace BusTracking.Core.Mail
 {
 	public interface IMailSender
 	{
-		public Task SendEmailAsync(string recipient, string subject, string body);
+		Task SendEmailAsync(string recipient, string subject, string body);
+
+		Task AbsenceEmailAsync(AbsenceEmail?absenceEmail);
+
+		//Task TripEmailAsync(string recipient, string subject, string body);
 	}
 }

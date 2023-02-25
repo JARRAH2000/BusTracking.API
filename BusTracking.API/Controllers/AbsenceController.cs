@@ -25,7 +25,7 @@ namespace BusTracking.API.Controllers
 			return _absenceService.GetAbsenceById(id);
 		}
 		[HttpPost("CreateAbsence")]
-		public int CreateAbsence(Absence absence)
+		public Task CreateAbsence(Absence absence)
 		{
 			return _absenceService.CreateAbsence(absence);
 		}

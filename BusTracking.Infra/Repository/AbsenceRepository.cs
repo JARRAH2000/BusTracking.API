@@ -8,15 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using Dapper;
+using BusTracking.Core.Mail;
+using BusTracking.Core.DTO;
+using BusTracking.Infra.Service;
 
 namespace BusTracking.Infra.Repository
 {
 	public class AbsenceRepository:IAbsenceRepository
 	{
 		private readonly IDbContext _dbContext;
-		public AbsenceRepository(IDbContext dbContext)
+		private readonly IMailCredentials _mailCredentials;
+		public AbsenceRepository(IDbContext dbContext,IMailCredentials mailCredentials)
 		{
 			_dbContext = dbContext;
+			_mailCredentials = mailCredentials;
 		}
 		public IEnumerable<Absence?> GetAllAbsences()
 		{
@@ -27,7 +32,7 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { ABID = id });
 			return _dbContext.Connection.Query<Absence?>("ABSENCE_PACKAGE.GET_ABSENCE_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
-		public int CreateAbsence(Absence absence)
+		public async Task CreateAbsence(Absence absence)
 		{
 			DynamicParameters parameters = new DynamicParameters(new
 			{
@@ -37,7 +42,15 @@ namespace BusTracking.Infra.Repository
 				ABSENCEID = absence.Id
 			});
 			_dbContext.Connection.Execute("ABSENCE_PACKAGE.CREATE_ABSENCE", parameters, commandType: CommandType.StoredProcedure);
-			return (int)parameters.Get<decimal>("ABSENCEID");
+			DynamicParameters emailParameters = new DynamicParameters(new
+			{
+				ABSENCEID = parameters.Get<decimal>("ABSENCEID")
+			});
+			AbsenceEmail? absenceEmail = _dbContext.Connection.Query<AbsenceEmail>("ABSENCE_PACKAGE.GET_ABSENCE_INFO_EMAIL", emailParameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
+			MailSender mailSender = new MailSender(_mailCredentials);
+			
+			await mailSender.AbsenceEmailAsync(absenceEmail);
+			//return (int)parameters.Get<decimal>("ABSENCEID");
 		}
 		public void UpdateAbsence(Absence absence)
 		{
