@@ -8,6 +8,10 @@ using BusTracking.Core.Service;
 using BusTracking.Core.Repository;
 using BusTracking.Core.Data;
 using BusTracking.Core.DTO;
+using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BusTracking.Infra.Service
 {
@@ -18,10 +22,26 @@ namespace BusTracking.Infra.Service
 		{
 			_loginRepository = loginRepository;
 		}
-		public Login? VerifyinLogin(Login login)
+		public string? VerifyinLogin(Login login)
 		{
-			//must create JWT here,may be the return type must be string also to return token
-			return _loginRepository.VerifyinLogin(login);
+			JWTPayload? userPayload = _loginRepository.VerifyinLogin(login);
+			if (userPayload == null) return null;
+			SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("BusTrackingSystemByTahalufTrainees_Basheer_Alaa_AhmadQuran_And_AhmadObiedat"));
+			SigningCredentials credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+			List<Claim> userClaims = new()
+			{
+				new Claim(ClaimTypes.Role,userPayload.UserRole.ToString()),
+				new Claim(ClaimTypes.Name,userPayload.UserName.ToString()),
+				new Claim(ClaimTypes.Email,userPayload.UserEmail.ToString()),
+				new Claim(ClaimTypes.NameIdentifier,userPayload.UserId.ToString())
+			};
+			JwtSecurityToken jwtSecurityToken = new JwtSecurityToken
+			(
+				claims: userClaims,
+				expires: DateTime.Now.AddMinutes(60),
+				signingCredentials: credentials
+			);
+			return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 		}
 		public async Task CreateLogin(Login login)
 		{

@@ -8,6 +8,11 @@ using BusTracking.Infra.Service;
 
 
 using BusTracking.Core.Mail;
+
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+
 namespace BusTracking.API
 {
 	public class Program
@@ -70,7 +75,26 @@ namespace BusTracking.API
 			builder.Services.AddScoped<IMailCredentials,MailCredentials>();
 			builder.Services.AddScoped<IMailSender, MailSender>();
 			///**
-			
+
+
+			//JWT configurations
+			builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer(option =>
+			{
+				option.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuer = true,
+					ValidateAudience = true,
+					ValidateLifetime = true,
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("BusTrackingSystemByTahalufTrainees_Basheer_Alaa_AhmadQuran_And_AhmadObiedat"))
+				};
+			});
+
+
 
 			var app = builder.Build();
 

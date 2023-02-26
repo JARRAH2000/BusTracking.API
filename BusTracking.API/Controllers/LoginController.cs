@@ -16,12 +16,10 @@ namespace BusTracking.API.Controllers
 			_loginService = loginService;
 		}
 		[HttpPost("VerifyingLogin")]
-		public Login? VerifyingLogin(Login login)
+		public IActionResult VerifyingLogin(Login login)
 		{
-			//here return type will be string after impelementing JWT
-			return _loginService.VerifyinLogin(login);
-
-			//Unauthorized();
+			string? token = _loginService.VerifyinLogin(login);
+			return token == null ? Unauthorized() : Ok(token);
 		}
 		[HttpPost("CreateLogin")]
 		public async Task CreateLogin(Login login)

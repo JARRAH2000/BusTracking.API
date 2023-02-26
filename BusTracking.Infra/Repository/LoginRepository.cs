@@ -26,11 +26,11 @@ namespace BusTracking.Infra.Repository
 			_dbContext = dbContext;
 			_mailCredentials = mailCredentials;
 		}
-		public Login? VerifyinLogin(Login login)
+		public JWTPayload? VerifyinLogin(Login login)
 		{
 			//JWT must be add in service layer for this method
 			DynamicParameters parameters = new DynamicParameters(new { USERNAME = login.Email, SECRET = login.Password });
-			return _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.VERIFYING_LOGIN", parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
+			return _dbContext.Connection.Query<JWTPayload?>("LOGIN_PACKAGE.VERIFYING_LOGIN", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
 		public async Task CreateLogin(Login login)
 		{
@@ -41,6 +41,7 @@ namespace BusTracking.Infra.Repository
 
 				MailSender mailSender = new(_mailCredentials);
 				await mailSender.SendEmailAsync(login.Email, "Login", "Hello welcome");
+
 			}
 			catch (Exception)
 			{

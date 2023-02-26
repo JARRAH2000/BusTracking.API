@@ -203,3 +203,4 @@ C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\obj\Debug\
 C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\bin\Debug\net6.0\MailKit.dll
 C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\bin\Debug\net6.0\MimeKit.dll
 C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\user\Git-Hub\BusTracking.API\BusTracking.API\BusTracking.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
