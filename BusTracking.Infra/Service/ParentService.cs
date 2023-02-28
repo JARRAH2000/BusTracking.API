@@ -24,6 +24,11 @@ namespace BusTracking.Infra.Service
 		{
 			return _parentRepository.GetParentById(id);
 		}
+
+		public async Task<Parent?> GetParentAndStudentsById(int id)
+		{
+			return await _parentRepository.GetParentAndStudentsById(id);
+		}
 		public int CreateParent(Parent parent)
 		{
 			return _parentRepository.CreateParent(parent);

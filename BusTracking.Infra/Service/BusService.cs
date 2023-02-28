@@ -56,6 +56,10 @@ namespace BusTracking.Infra.Service
 		{
 			return _busRepository.GetBusById(id);
 		}
+		public async Task<Bus?> GetBusWithTripsById(int id)
+		{
+			return await _busRepository.GetBusWithTripsById(id);
+		}
 		public int CreateBus(Bus bus)
 		{
 			return _busRepository.CreateBus(bus);

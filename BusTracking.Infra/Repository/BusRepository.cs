@@ -63,6 +63,27 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { BID = id });
 			return _dbContext.Connection.Query<Bus?>("BUS_PACKAGE.GET_BUS_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
+		public async Task<Bus?> GetBusWithTripsById(int id)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { BSID = id });
+			IEnumerable<Bus> buses = await _dbContext.Connection.QueryAsync<Bus, Trip, Bus>("BUS_PACKAGE.GET_BUS_TRIPS_BY_ID", (bus, trip) =>
+			{
+				bus.Trips.Add(trip);
+				return bus;
+			},
+			splitOn: "Id",
+			param: parameters,
+			commandType: CommandType.StoredProcedure
+			);
+			buses = buses.GroupBy(b => b.Id).Select(bus =>
+			{
+				Bus bs = bus.First();
+				bs.Status = _dbContext.Connection.Query<Employeestatus?>("EMPLOYEESTATUS_PACKAGE.GET_STATUS_BY_ID", new DynamicParameters(new { SID = bs.Statusid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				bs.Trips = bus.Select(b => b.Trips.Single()).ToList();
+				return bs;
+			});
+			return buses.FirstOrDefault();
+		}
 		public int CreateBus(Bus bus)
 		{
 			DynamicParameters parameters = new DynamicParameters(new 

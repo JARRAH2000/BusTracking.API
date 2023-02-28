@@ -24,6 +24,11 @@ namespace BusTracking.API.Controllers
 		{
 			return _parentService.GetParentById(id);
 		}
+		[HttpGet("GetParentAndStudentsById/{id}")]
+		public async Task<Parent?> GetParentAndStudentsById(int id)
+		{
+			return await _parentService.GetParentAndStudentsById(id);
+		}
 		[HttpPost("CreateParent")]
 		public int CreateParent(Parent parent)
 		{

@@ -25,6 +25,10 @@ namespace BusTracking.Infra.Service
 		{
 			return _studentRepository.GetStudentById(id);
 		}
+		public async Task<Student?> GetStudentAbsenceById(int id)
+		{
+			return await _studentRepository.GetStudentAbsenceById(id);
+		}
 		public int CreateStudent(Student student)
 		{
 			return _studentRepository.CreateStudent(student);

@@ -64,6 +64,11 @@ namespace BusTracking.API.Controllers
 		{
 			return _busService.GetBusById(id);
 		}
+		[HttpGet("GetBusWithTripsById/{id}")]
+		public async Task<Bus?> GetBusWithTripsById(int id)
+		{
+			return await _busService.GetBusWithTripsById(id);
+		}
 		[HttpPost("CreateBus")]
 		public int CreateBus(Bus bus)
 		{

@@ -28,6 +28,30 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { PARENTID = id });
 			return _dbContext.Connection.Query<Parent?>("PARENT_PACKAGE.GET_PARENT_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
+
+		public async Task<Parent?> GetParentAndStudentsById(int id)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { PARID = id });
+			IEnumerable<Parent> parents = await _dbContext.Connection.QueryAsync<Parent, Student, Parent>("PARENT_PACKAGE.GET_PARENT_AND_STUDENTS_BY_ID", (parent, student) =>
+			{
+				parent.Students.Add(student);
+				return parent;
+			},
+			splitOn: "Id",
+			param: parameters,
+			commandType: CommandType.StoredProcedure
+			);
+			IEnumerable<Parent> parent = parents.GroupBy(p => p.Id).Select(father =>
+			{
+				Parent dad = father.First();
+				DynamicParameters userParameter = new DynamicParameters(new { UID = dad.Userid });
+				dad.User = _dbContext.Connection.Query<User>("USER_PACKAGE.GET_USER_BY_ID", userParameter, commandType: CommandType.StoredProcedure).FirstOrDefault();
+				dad.Students = father.Select(f => f.Students.Single()).ToList();
+				return dad;
+			});
+			return parent.FirstOrDefault();
+		}
+
 		public int CreateParent(Parent parent)
 		{
 			DynamicParameters parameters = new DynamicParameters(new

@@ -23,7 +23,7 @@ namespace BusTracking.Infra.Repository
 		}
 		public Studentstatus? GetStudentStatusById(int id)
 		{
-			DynamicParameters parameters = new DynamicParameters(new { SID = id });
+			DynamicParameters parameters = new DynamicParameters(new { SSID = id });
 			return _dbContext.Connection.Query<Studentstatus?>("STUDENTSTATUS_PACKAGE.GET_STUDENTSTATUS_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
 

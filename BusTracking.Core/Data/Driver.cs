@@ -15,7 +15,7 @@ public partial class Driver
 
     public virtual Employeestatus? Status { get; set; }
 
-    public virtual ICollection<Trip> Trips { get; } = new List<Trip>();
+    public virtual ICollection<Trip> Trips { get; set; } = new List<Trip>();
 
     public virtual User? User { get; set; }
 }

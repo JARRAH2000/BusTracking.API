@@ -36,6 +36,10 @@ namespace BusTracking.Infra.Service
 		{
 			return _driverRepository.GetDriverById(id);
 		}
+		public async Task<Driver?> GetDriverWithTripsById(int id)
+		{
+			return await _driverRepository.GetDriverWithTripsById(id);
+		}
 		public int CreateDriver(Driver driver)
 		{
 			return _driverRepository.CreateDriver(driver);

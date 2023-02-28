@@ -40,6 +40,29 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { DRIVERID = id });
 			return _dbContext.Connection.Query<Driver?>("DRIVER_PACKAGE.GET_DRIVER_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
+
+		public async Task<Driver?> GetDriverWithTripsById(int id)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { DRIID = id });
+			IEnumerable<Driver> drivers = await _dbContext.Connection.QueryAsync<Driver, Trip, Driver>("DRIVER_PACKAGE.GET_DRIVER_WITH_TRIPS_BY_ID", (driver, trip) =>
+			{
+				driver.Trips.Add(trip);
+				return driver;
+			},
+			splitOn: "Id",
+			param: parameters,
+			commandType: CommandType.StoredProcedure
+			);
+			drivers = drivers.GroupBy(d => d.Id).Select(driver =>
+			{
+				Driver dr = driver.First();
+				dr.User = _dbContext.Connection.Query<User?>("USER_PACKAGE.GET_USER_BY_ID", new DynamicParameters(new { UID = dr.Userid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				dr.Status = _dbContext.Connection.Query<Employeestatus?>("EMPLOYEESTATUS_PACKAGE.GET_STATUS_BY_ID", new DynamicParameters(new { SID = dr.Statusid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				dr.Trips = driver.Select(d => d.Trips.Single()).ToList();
+				return dr;
+			});
+			return drivers.FirstOrDefault();
+		}
 		public int CreateDriver(Driver driver)
 		{
 			DynamicParameters parameters = new DynamicParameters(new

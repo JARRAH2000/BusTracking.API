@@ -35,7 +35,7 @@ public partial class Student
 
     public decimal? Statusid { get; set; }
 
-    public virtual ICollection<Absence> Absences { get; } = new List<Absence>();
+    public virtual ICollection<Absence> Absences { get; set; } = new List<Absence>();
 
     public virtual ICollection<Notification> Notifications { get; } = new List<Notification>();
 

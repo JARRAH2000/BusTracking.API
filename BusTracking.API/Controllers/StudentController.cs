@@ -24,6 +24,11 @@ namespace BusTracking.API.Controllers
 		{
 			return _studentService.GetStudentById(id);
 		}
+		[HttpGet("GetStudentAbsenceById/{id}")]
+		public async Task<Student?> GetStudentAbsenceById(int id)
+		{
+			return await _studentService.GetStudentAbsenceById(id);
+		}
 		[HttpPost("CreateStudent")]
 		public int CreateStudent(Student student)
 		{

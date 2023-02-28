@@ -40,6 +40,7 @@ namespace BusTracking.Infra.Repository
 				_dbContext.Connection.Execute("LOGIN_PACKAGE.CREATE_LOGIN", parameters, commandType: CommandType.StoredProcedure);
 
 				MailSender mailSender = new(_mailCredentials);
+				
 				await mailSender.SendEmailAsync(login.Email, "Login", "Hello welcome");
 
 			}

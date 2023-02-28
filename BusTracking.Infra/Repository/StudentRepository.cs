@@ -30,6 +30,28 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters=new DynamicParameters(new { STUDENTID =id});
 			return _dbContext.Connection.Query<Student?>("STUDENT_PACKAGE.GET_STUDENT_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
+		public async Task<Student?> GetStudentAbsenceById(int id)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { STUDID = id });
+			IEnumerable<Student> students = await _dbContext.Connection.QueryAsync<Student, Absence, Student>("STUDENT_PACKAGE.GET_STUDENT_ABSENCE_BY_ID", (student, absence) =>
+			{
+				student.Absences.Add(absence);
+				return student;
+			},
+			splitOn: "Id",
+			param: parameters,
+			commandType: CommandType.StoredProcedure
+			);
+			students = students.GroupBy(s => s.Id).Select(student =>
+			{
+				Student std = student.First();
+				std.Parent = _dbContext.Connection.Query<Parent?>("PARENT_PACKAGE.GET_PARENT_BY_ID", new DynamicParameters(new { PARENTID = std.Parentid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				std.Status = _dbContext.Connection.Query<Studentstatus?>("STUDENTSTATUS_PACKAGE.GET_STUDENTSTATUS_BY_ID", new DynamicParameters(new { SSID = std.Statusid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				std.Absences = student.Select(st => st.Absences.Single()).ToList();
+				return std;
+			});
+			return students.FirstOrDefault();
+		}
 		public int CreateStudent(Student student)
 		{
 			DynamicParameters parameters = new DynamicParameters(new

@@ -11,6 +11,8 @@ namespace BusTracking.Core.Repository
 		IEnumerable<Teacher?> GetAllTeachers();
 		IEnumerable<Teacher?> GetBusyTeachers();
 		IEnumerable<Teacher?> GetAvailableTeachers();
+
+		Task<Teacher?>GetTeacherWithTripsById(int id);
 		Teacher? GetTeacherById(int id);
 		int CreateTeacher(Teacher teacher);
 		void UpdateTeacher(Teacher teacher);

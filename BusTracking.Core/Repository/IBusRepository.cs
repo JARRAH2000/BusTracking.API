@@ -18,6 +18,7 @@ namespace BusTracking.Core.Repository
         IEnumerable<Bus?> GetBusByVRP(string vrp);
         IEnumerable<Bus?> GetBusByCapacityThreshold(int capacity);
         Bus? GetBusById(int id);
+        Task<Bus?> GetBusWithTripsById(int id);
         int CreateBus(Bus bus);
         void UpdateBus(Bus bus);
         void DeleteBus(int id);

@@ -10,6 +10,7 @@ namespace BusTracking.Core.Repository
 	{
 		IEnumerable<Student?> GetAllStudents();
 		Student? GetStudentById(int id);
+		Task<Student?> GetStudentAbsenceById(int id);
 		int CreateStudent(Student student);
 		void UpdateStudent(Student student);
 		void DeleteStudent(int id);
