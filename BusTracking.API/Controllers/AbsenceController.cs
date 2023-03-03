@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BusTracking.Core.Service;
 using BusTracking.Core.Data;
-
+using BusTracking.Core.DTO;
 namespace BusTracking.API.Controllers
 {
 	[Route("api/[controller]")]
@@ -38,6 +38,16 @@ namespace BusTracking.API.Controllers
 		public void DeleteAbsence(int id)
 		{
 			_absenceService.DeleteAbsence(id);
+		}
+		[HttpGet("GetAbsencesByDate/{date}")]
+		public IEnumerable<Absence?> GetAbsencesByDate(DateTime date)
+		{
+			return _absenceService.GetAbsencesByDate(date);
+		}
+		[HttpPost("GetAbsencesByDateInterval")]
+		public IEnumerable<Absence?> GetAbsencesByDateInterval(DateInterval dateInterval)
+		{
+			return _absenceService.GetAbsencesByDateInterval(dateInterval);
 		}
 	}
 }

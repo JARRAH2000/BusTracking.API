@@ -17,5 +17,7 @@ namespace BusTracking.Core.Service
 		int CreateTeacher(Teacher teacher);
 		void UpdateTeacher(Teacher teacher);
 		void DeleteTeacher(int id);
+		IEnumerable<Teacher?> GetTeacherByName(string tchName);
+
 	}
 }

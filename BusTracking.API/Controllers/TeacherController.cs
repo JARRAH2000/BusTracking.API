@@ -55,5 +55,10 @@ namespace BusTracking.API.Controllers
 		{
 			_teacherService.DeleteTeacher(id);
 		}
+		[HttpGet("GetTeacherByName/{tchName}")]
+		public IEnumerable<Teacher?> GetTeacherByName(string tchName)
+		{
+			return _teacherService.GetTeacherByName(tchName);
+		}
 	}
 }

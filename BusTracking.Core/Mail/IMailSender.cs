@@ -11,7 +11,7 @@ namespace BusTracking.Core.Mail
 	{
 		Task SendEmailAsync(string recipient, string subject, string body);
 
-		Task AbsenceEmailAsync(AbsenceEmail?absenceEmail);
+		Task AbsenceEmailAsync(AbsenceEmail? absenceEmail);
 
 		//Task TripEmailAsync(string recipient, string subject, string body);
 	}

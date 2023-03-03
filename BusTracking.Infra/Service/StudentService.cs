@@ -29,6 +29,10 @@ namespace BusTracking.Infra.Service
 		{
 			return await _studentRepository.GetStudentAbsenceById(id);
 		}
+		public IEnumerable<Student?> GetStudentByName(string stdName)
+		{
+			return _studentRepository.GetStudentByName(stdName);
+		}
 		public int CreateStudent(Student student)
 		{
 			return _studentRepository.CreateStudent(student);

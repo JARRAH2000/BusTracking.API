@@ -16,5 +16,7 @@ namespace BusTracking.Core.Service
 
 		int CreateParent(Parent parent);
 		void DeleteParent(int id);
+		IEnumerable<Parent?> GetParentByName(string pName);
+
 	}
 }

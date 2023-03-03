@@ -52,6 +52,20 @@ namespace BusTracking.Infra.Repository
 			});
 			return students.FirstOrDefault();
 		}
+		public IEnumerable<Student> GetStudentByName(string stdName)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { STDNAME = stdName });
+			IEnumerable<Student> students = _dbContext.Connection.Query<Student>("STUDENT_PACKAGE.GET_STUDENT_BY_NAME", parameters, commandType: CommandType.StoredProcedure);
+			students = students.Select(stud =>
+			{
+				Student student = stud;
+				student.Parent = _dbContext.Connection.Query<Parent>("PARENT_PACKAGE.GET_PARENT_BY_ID", new DynamicParameters(new { PARENTID = stud.Parentid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				if (stud.Parent != null)
+					stud.Parent.User = _dbContext.Connection.Query<User?>("USER_PACKAGE.GET_USER_BY_ID", new DynamicParameters(new { UID = stud.Parent.Userid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				return stud;
+			});
+			return students;
+		}
 		public int CreateStudent(Student student)
 		{
 			DynamicParameters parameters = new DynamicParameters(new

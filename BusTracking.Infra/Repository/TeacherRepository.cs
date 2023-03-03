@@ -82,5 +82,18 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { TID = id });
 			_dbContext.Connection.Execute("TEACHER_PACKAGE.DELETE_TEACHER", parameters, commandType: CommandType.StoredProcedure);
 		}
+		public IEnumerable<Teacher?> GetTeacherByName(string tchName)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { TCHNAME = tchName });
+			IEnumerable<Teacher?> teachers = _dbContext.Connection.Query<Teacher?>("TEACHER_PACKAGE.GET_TEACHER_BY_NAME", parameters, commandType: CommandType.StoredProcedure);
+			teachers = teachers.Select(t =>
+			{
+				Teacher? teacher = t;
+				if (teacher != null)
+					teacher.User = _dbContext.Connection.Query<User?>("USER_PACKAGE.GET_USER_BY_ID", new DynamicParameters(new { UID = teacher.Userid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				return teacher;
+			});
+			return teachers;
+		}
 	}
 }

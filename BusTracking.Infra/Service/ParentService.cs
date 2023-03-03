@@ -37,5 +37,10 @@ namespace BusTracking.Infra.Service
 		{
 			_parentRepository.DeleteParent(id);
 		}
+		public IEnumerable<Parent?> GetParentByName(string pName)
+		{
+			return _parentRepository.GetParentByName(pName);
+		}
+
 	}
 }

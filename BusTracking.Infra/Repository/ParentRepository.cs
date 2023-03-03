@@ -67,5 +67,18 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { PARENTID = id });
 			_dbContext.Connection.Execute("PARENT_PACKAGE.DELETE_PARENT", parameters, commandType: CommandType.StoredProcedure);
 		}
+		public IEnumerable<Parent?> GetParentByName(string pName)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { PNAME = pName });
+			IEnumerable<Parent?> parents = _dbContext.Connection.Query<Parent?>("PARENT_PACKAGE.GET_PARENT_BY_NAME", parameters, commandType: CommandType.StoredProcedure);
+			parents = parents.Select(p =>
+			{
+				if (p == null) return null;
+				Parent parent = p;
+				parent.User = _dbContext.Connection.Query<User?>("USER_PACKAGE.GET_USER_BY_ID", new DynamicParameters(new { UID = parent.Userid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				return parent;
+			});
+			return parents;
+		}
 	}
 }

@@ -35,5 +35,5 @@ public partial class Trip
 
     public virtual Teacher? Teacher { get; set; }
 
-    public virtual ICollection<Tripstudent> Tripstudents { get; } = new List<Tripstudent>();
+    public virtual ICollection<Tripstudent> Tripstudents { get; set; } = new List<Tripstudent>();
 }

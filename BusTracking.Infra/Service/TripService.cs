@@ -41,5 +41,20 @@ namespace BusTracking.Infra.Service
 		{
 			return _tripRepository.GetTripDetails(id);
 		}
+
+		public IEnumerable<TripDetails?> GetTripsByDate(DateTime date)
+		{
+			return _tripRepository.GetTripsByDate(date);
+		}
+
+		public IEnumerable<TripDetails?> GetTripsByDateInterval(DateInterval dateInterval)
+		{
+			return _tripRepository.GetTripsByDateInterval(dateInterval);
+		}
+		public Task<Trip?> GetTripStudentsById(int id)
+		{
+			return _tripRepository.GetTripStudentsById(id);
+		}
+
 	}
 }

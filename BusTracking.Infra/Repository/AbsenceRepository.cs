@@ -11,6 +11,7 @@ using Dapper;
 using BusTracking.Core.Mail;
 using BusTracking.Core.DTO;
 using BusTracking.Infra.Service;
+using static Dapper.SqlMapper;
 
 namespace BusTracking.Infra.Repository
 {
@@ -67,6 +68,30 @@ namespace BusTracking.Infra.Repository
 		{
 			DynamicParameters parameters = new DynamicParameters(new { ABID = id });
 			_dbContext.Connection.Execute("ABSENCE_PACKAGE.DELETE_ABSENCE", parameters, commandType: CommandType.StoredProcedure);
+		}
+		public IEnumerable<Absence?> GetAbsencesByDate(DateTime date)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { ABSENCEDATE = date });
+			IEnumerable<Absence> absences = _dbContext.Connection.Query<Absence>("ABSENCE_PACKAGE.GET_ABSENCE_BY_DATE", parameters, commandType: CommandType.StoredProcedure);
+			absences = absences.Select(absence =>
+			{
+				absence.Teacher = _dbContext.Connection.Query<Teacher?>("TEACHER_PACKAGE.GET_TEACHER_BY_ID", new DynamicParameters(new { TEACHERID = absence.Teacherid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				absence.Student = _dbContext.Connection.Query<Student?>("STUDENT_PACKAGE.GET_STUDENT_BY_ID", new DynamicParameters(new { STUDENTID = absence.Studentid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				return absence;
+			});
+			return absences;
+		}
+		public IEnumerable<Absence?> GetAbsencesByDateInterval(DateInterval dateInterval)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { ABSENCEFROM = dateInterval.From, ABSENCETO = dateInterval.To });
+			IEnumerable<Absence> absences = _dbContext.Connection.Query<Absence>("ABSENCE_PACKAGE.GET_ABSENCE_BY_DATE_INTERVAL", parameters, commandType: CommandType.StoredProcedure);
+			absences = absences.Select(absence =>
+			{
+				absence.Teacher = _dbContext.Connection.Query<Teacher?>("TEACHER_PACKAGE.GET_TEACHER_BY_ID", new DynamicParameters(new { TEACHERID = absence.Teacherid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				absence.Student = _dbContext.Connection.Query<Student?>("STUDENT_PACKAGE.GET_STUDENT_BY_ID", new DynamicParameters(new { STUDENTID = absence.Studentid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+				return absence;
+			});
+			return absences;
 		}
 	}
 }

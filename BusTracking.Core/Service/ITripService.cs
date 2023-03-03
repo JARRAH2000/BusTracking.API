@@ -16,5 +16,10 @@ namespace BusTracking.Core.Service
 		void UpdateTrip(Trip trip);
 		void DeleteTrip(int id);
 		TripDetails? GetTripDetails(int id);
+
+		IEnumerable<TripDetails?> GetTripsByDate(DateTime date);
+		IEnumerable<TripDetails?> GetTripsByDateInterval(DateInterval dateInterval);
+		Task<Trip?> GetTripStudentsById(int id);
+
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using BusTracking.Core.Data;
 using BusTracking.Core.Repository;
 using BusTracking.Core.Service;
+using BusTracking.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,14 @@ namespace BusTracking.Infra.Service
 		public void DeleteAbsence(int id)
 		{
 			_absenceRepository.DeleteAbsence(id);
+		}
+		public IEnumerable<Absence?> GetAbsencesByDate(DateTime date)
+		{
+			return _absenceRepository.GetAbsencesByDate(date);
+		}
+		public IEnumerable<Absence?> GetAbsencesByDateInterval(DateInterval dateInterval)
+		{
+			return _absenceRepository.GetAbsencesByDateInterval(dateInterval);
 		}
 	}
 }

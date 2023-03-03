@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 
 namespace BusTracking.Infra.Repository
 {
@@ -32,7 +32,7 @@ namespace BusTracking.Infra.Repository
 		{
 			DynamicParameters parameters = new DynamicParameters(new
 			{
-				ARRIV = tripstudent.Arrivaltime,
+				ARRIV = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second),
 				STDID = tripstudent.Studentid,
 				TRID = tripstudent.Tripid
 			});
@@ -45,7 +45,7 @@ namespace BusTracking.Infra.Repository
 				ARRIV = tripstudent.Arrivaltime,
 				STDID = tripstudent.Studentid,
 				TRID = tripstudent.Tripid,
-				TRPSID=tripstudent.Id
+				TRPSID = tripstudent.Id
 			});
 			_dbContext.Connection.Query<Tripstudent?>("TRIPSTUDENT_PACKAGE.UPDEATE_TRIPSTUDENT", parameters, commandType: CommandType.StoredProcedure);
 		}

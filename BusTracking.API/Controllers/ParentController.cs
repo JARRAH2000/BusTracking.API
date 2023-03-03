@@ -39,5 +39,10 @@ namespace BusTracking.API.Controllers
 		{
 			_parentService.DeleteParent(id);
 		}
+		[HttpGet("GetParentByName/{pName}")]
+		public IEnumerable<Parent?> GetParentByName(string pName)
+		{
+			return _parentService.GetParentByName(pName);
+		}
 	}
 }

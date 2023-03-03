@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusTracking.Core.Mail;
 using BusTracking.Core.DTO;
-
+//using System.Net.Mail;
 namespace BusTracking.Infra.Service
 {
 	public class MailSender : IMailSender

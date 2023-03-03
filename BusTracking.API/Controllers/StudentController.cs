@@ -29,6 +29,11 @@ namespace BusTracking.API.Controllers
 		{
 			return await _studentService.GetStudentAbsenceById(id);
 		}
+		[HttpGet("GetStudentByName/{stdName}")]
+		public IEnumerable<Student?> GetStudentByName(string stdName)
+		{
+			return _studentService.GetStudentByName(stdName);
+		}
 		[HttpPost("CreateStudent")]
 		public int CreateStudent(Student student)
 		{

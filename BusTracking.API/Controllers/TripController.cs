@@ -45,5 +45,20 @@ namespace BusTracking.API.Controllers
 		{
 			return _tripService.GetTripDetails(id);
 		}
+		[HttpGet("GetTripsByDate/{date}")]
+		public IEnumerable<TripDetails?> GetTripsByDate(DateTime date)
+		{
+			return _tripService.GetTripsByDate(date);
+		}
+		[HttpPost("GetTripsByDateInterval")]
+		public IEnumerable<TripDetails?> GetTripsByDateInterval(DateInterval dateInterval)
+		{
+			return _tripService.GetTripsByDateInterval(dateInterval);
+		}
+		[HttpGet("GetTripStudentsById/{id}")]
+		public Task<Trip?> GetTripStudentsById(int id)
+		{
+			return _tripService.GetTripStudentsById(id);
+		}
 	}
 }

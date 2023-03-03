@@ -48,5 +48,9 @@ namespace BusTracking.Infra.Service
 		{
 			_teacherRepository.DeleteTeacher(id);
 		}
+		public IEnumerable<Teacher?> GetTeacherByName(string tchName)
+		{
+			return _teacherRepository.GetTeacherByName(tchName);
+		}
 	}
 }

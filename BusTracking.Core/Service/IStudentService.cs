@@ -12,6 +12,7 @@ namespace BusTracking.Core.Service
 		IEnumerable<Student?> GetAllStudents();
 		Student? GetStudentById(int id);
 		Task<Student?> GetStudentAbsenceById(int id);
+		IEnumerable<Student?> GetStudentByName(string stdName);
 		int CreateStudent(Student student);
 		void UpdateStudent(Student student);
 		void DeleteStudent(int id);
