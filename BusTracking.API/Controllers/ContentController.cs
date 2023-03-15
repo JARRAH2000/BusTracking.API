@@ -29,5 +29,17 @@ namespace BusTracking.API.Controllers
 		{
 			_contentService.UpdateContent(content);
 		}
+		[HttpPost("UploadLogo")]
+		public Content UploadLogo()
+		{
+			IFormFile formFile = Request.Form.Files[0];
+			string fileName = Guid.NewGuid().ToString() + "_" + formFile.FileName;
+			string fullPath = Path.Combine("Images/Buses", fileName);
+			using (FileStream stream = new FileStream(fullPath, FileMode.Create))
+			{
+				formFile.CopyTo(stream);
+			}
+			return new Content { Mainlogo = fileName };
+		}
 	}
 }

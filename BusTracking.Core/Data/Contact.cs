@@ -12,4 +12,7 @@ public partial class Contact
     public string Title { get; set; } = null!;
 
     public string Message { get; set; } = null!;
+
+    public string Name { get; set; } = null!;
+    public DateTime Sendtime { get; set; }
 }

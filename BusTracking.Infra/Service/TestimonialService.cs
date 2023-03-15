@@ -20,9 +20,9 @@ namespace BusTracking.Infra.Service
 		{
 			return _testimonialRepository.GetAllTestimonials();
 		}
-		public IEnumerable<Testimonial?> GetPublishedTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetPublishedTestimonials()
 		{
-			return _testimonialRepository.GetPublishedTestimonials();
+			return await _testimonialRepository.GetPublishedTestimonials();
 		}
 		public IEnumerable<Testimonial?> GetUnPublishedTestimonials()
 		{

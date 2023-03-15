@@ -592,6 +592,14 @@ public partial class ModelContext : DbContext
 				.HasMaxLength(50)
 				.IsUnicode(false)
 				.HasColumnName("TITLE");
+			entity.Property(e => e.Name)
+				.HasMaxLength(50)
+				.IsUnicode(false)
+				.HasColumnName("NAME");
+			entity.Property(e => e.Sendtime)
+				.HasPrecision(6)
+				.HasColumnName("SENDTIME");
+
 		});
 
 		modelBuilder.Entity<Content>(entity =>
@@ -678,9 +686,13 @@ public partial class ModelContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("PUBLISHED");
-			entity.Property(e => e.Parentid)
+			entity.Property(e => e.Userid)
 				.HasColumnType("NUMBER(38)")
-				.HasColumnName("PARENTID");
+				.HasColumnName("USERID");
+
+			entity.Property(e => e.Sendtime)
+				.HasPrecision(6)
+				.HasColumnName("SENDTIME");
 		});
 
 		OnModelCreatingPartial(modelBuilder);

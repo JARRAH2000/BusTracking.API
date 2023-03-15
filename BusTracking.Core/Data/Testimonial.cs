@@ -11,5 +11,8 @@ public partial class Testimonial
 
 	public string? Published { get; set; }
 
-	public decimal? Parentid { get; set; }
+	public decimal? Userid { get; set; }
+
+	public DateTime Sendtime { get; set; }
+	public virtual User? User { get; set; }
 }

@@ -33,7 +33,9 @@ namespace BusTracking.Infra.Repository
 			{
 				MAIL = contact.Email,
 				TOPLINE = contact.Title,
-				MSG = contact.Message
+				MSG = contact.Message,
+				SENDER = contact.Name,
+				STIME = contact.Sendtime
 			});
 			_dbContext.Connection.Execute("CONTACT_PACKAGE.CREATE_CONTACT", parameters, commandType: CommandType.StoredProcedure);
 		}

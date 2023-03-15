@@ -20,9 +20,9 @@ namespace BusTracking.API.Controllers
 			return _testimonialService.GetAllTestimonials();
 		}
 		[HttpGet("GetPublishedTestimonials")]
-		public IEnumerable<Testimonial?> GetPublishedTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetPublishedTestimonials()
 		{
-			return _testimonialService.GetPublishedTestimonials();
+			return await _testimonialService.GetPublishedTestimonials();
 		}
 		[HttpGet("GetUnPublishedTestimonials")]
 		public IEnumerable<Testimonial?> GetUnPublishedTestimonials()

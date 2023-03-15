@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 using System.Security.Policy;
+using System.Configuration;
 
 namespace BusTracking.Infra.Repository
 {
@@ -24,9 +25,14 @@ namespace BusTracking.Infra.Repository
 		{
 			return _dbContext.Connection.Query<Testimonial?>("TESTIMONIAL_PACKAGE.GET_ALL_TESTIMONIALS", commandType: CommandType.StoredProcedure).ToList();
 		}
-		public IEnumerable<Testimonial?> GetPublishedTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetPublishedTestimonials()
 		{
-			return _dbContext.Connection.Query<Testimonial?>("TESTIMONIAL_PACKAGE.GET_PUBLISHED_TESTIMONIALS", commandType: CommandType.StoredProcedure);
+			return await _dbContext.Connection.QueryAsync<Testimonial?, User?, Testimonial?>("TESTIMONIAL_PACKAGE.GET_PUBLISHED_TESTIMONIALS", (testimonial, user) =>
+			{
+				if(testimonial!=null)
+				testimonial.User = user;
+				return testimonial;
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
 		}
 		public IEnumerable<Testimonial?> GetUnPublishedTestimonials()
 		{
@@ -42,7 +48,8 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new
 			{
 				MSG = testimonial.Message,
-				SENDER = testimonial.Parentid
+				SENDER = testimonial.Userid,
+				STIME = testimonial.Sendtime
 			});
 			_dbContext.Connection.Execute("TESTIMONIAL_PACKAGE.CREATE_TESTIMONIAL", parameters, commandType: CommandType.StoredProcedure);
 		}

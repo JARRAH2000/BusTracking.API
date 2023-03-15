@@ -28,6 +28,21 @@ namespace BusTracking.API
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
+
+			//Allow external access
+			builder.Services.AddCors(corsOptions =>
+			{
+				corsOptions.AddPolicy("policy",
+				builder =>
+				{
+					builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+				});
+			});
+
+
+
+
+
 			//Commons
 			builder.Services.AddScoped<IDbContext, DbContext>();
 
@@ -109,6 +124,8 @@ namespace BusTracking.API
 
 			app.UseAuthorization();
 
+			//allow cors
+			app.UseCors("policy");
 
 			app.MapControllers();
 

@@ -9,7 +9,7 @@ namespace BusTracking.Core.Repository
 	public interface ITestimonialRepository
 	{
         IEnumerable<Testimonial?> GetAllTestimonials();
-        IEnumerable<Testimonial?> GetPublishedTestimonials();
+        Task<IEnumerable<Testimonial?>> GetPublishedTestimonials();
         IEnumerable<Testimonial?> GetUnPublishedTestimonials();
         Testimonial? GetTestimonialById(int id);
         void CreateTestimonial(Testimonial testimonial);
