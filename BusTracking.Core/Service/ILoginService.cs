@@ -11,7 +11,9 @@ namespace BusTracking.Core.Service
 	public interface ILoginService
 	{
 		string? VerifyinLogin(Login login);
-		Task CreateLogin(Login login);
+
+		bool IsEmailUsed(string email);
+		void CreateLogin(Login login);
 		void UpdateLogin(UpdateLoginData loginData);
 		void DeleteLogin(int userId);
 	}

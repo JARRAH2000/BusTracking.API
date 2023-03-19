@@ -15,9 +15,9 @@ namespace BusTracking.API.Controllers
 			_parentService = parentService;
 		}
 		[HttpGet("GetAllParents")]
-		public IEnumerable<Parent?>GetAllParents()
+		public async Task<IEnumerable<Parent?>> GetAllParents()
 		{
-			return _parentService.GetAllParents();
+			return await _parentService.GetAllParents();
 		}
 		[HttpGet("GetParentById/{id}")]
 		public Parent? GetParentById(int id)

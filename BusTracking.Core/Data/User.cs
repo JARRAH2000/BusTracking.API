@@ -25,7 +25,7 @@ public partial class User
 
     public virtual ICollection<Driver> Drivers { get; } = new List<Driver>();
 
-    public virtual ICollection<Login> Logins { get; } = new List<Login>();
+    public virtual ICollection<Login> Logins { get; set; } = new List<Login>();
 
     public virtual ICollection<Parent> Parents { get; } = new List<Parent>();
 

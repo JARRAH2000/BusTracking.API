@@ -4,6 +4,7 @@ using BusTracking.Core.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,9 +17,9 @@ namespace BusTracking.Infra.Service
 		{
 			_parentRepository = parentRepository;
 		}
-		public IEnumerable<Parent?> GetAllParents()
+		public async Task<IEnumerable<Parent?>> GetAllParents()
 		{
-			return _parentRepository.GetAllParents();
+			return await _parentRepository.GetAllParents();
 		}
 		public Parent? GetParentById(int id)
 		{

@@ -9,7 +9,7 @@ namespace BusTracking.Core.Service
 {
 	public interface IParentService
 	{
-		IEnumerable<Parent?> GetAllParents();
+		Task<IEnumerable<Parent?>> GetAllParents();
 		Parent? GetParentById(int id);
 
 		Task<Parent?> GetParentAndStudentsById(int id);

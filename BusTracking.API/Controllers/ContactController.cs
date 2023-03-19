@@ -29,7 +29,7 @@ namespace BusTracking.API.Controllers
 		{
 			_contactService.CreateContact(contact);
 		}
-		[HttpPut("UpdateContact")]
+		[HttpDelete("DeleteContact/{id}")]
 		public void DeleteContactById(int id)
 		{
 			_contactService.DeleteContactById(id);

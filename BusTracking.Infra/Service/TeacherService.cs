@@ -16,17 +16,17 @@ namespace BusTracking.Infra.Service
 		{
 			_teacherRepository = teacherRepository;
 		}
-		public IEnumerable<Teacher?> GetAllTeachers()
+		public async Task<IEnumerable<Teacher?>> GetAllTeachers()
 		{
-			return _teacherRepository.GetAllTeachers();
+			return await _teacherRepository.GetAllTeachers();
 		}
-		public IEnumerable<Teacher?> GetBusyTeachers()
+		public async Task<IEnumerable<Teacher?>> GetBusyTeachers()
 		{
-			return _teacherRepository.GetBusyTeachers();
+			return await _teacherRepository.GetBusyTeachers();
 		}
-		public IEnumerable<Teacher?> GetAvailableTeachers()
+		public async Task<IEnumerable<Teacher?>> GetAvailableTeachers()
 		{
-			return _teacherRepository.GetAvailableTeachers();
+			return await _teacherRepository.GetAvailableTeachers();
 		}
 		public async Task<Teacher?> GetTeacherWithTripsById(int id)
 		{

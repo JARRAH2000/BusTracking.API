@@ -8,10 +8,10 @@ namespace BusTracking.Core.Repository
 {
 	public interface ITestimonialRepository
 	{
-        IEnumerable<Testimonial?> GetAllTestimonials();
+        Task<IEnumerable<Testimonial?>> GetAllTestimonials();
         Task<IEnumerable<Testimonial?>> GetPublishedTestimonials();
-        IEnumerable<Testimonial?> GetUnPublishedTestimonials();
-        Testimonial? GetTestimonialById(int id);
+        Task<IEnumerable<Testimonial?>> GetUnPublishedTestimonials();
+        Task<Testimonial?> GetTestimonialById(int id);
         void CreateTestimonial(Testimonial testimonial);
         void UpdateTestimonial(Testimonial testimonial);
         void DeleteTestimonial(int id);

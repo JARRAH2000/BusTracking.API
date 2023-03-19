@@ -9,9 +9,9 @@ namespace BusTracking.Core.Service
 {
 	public interface ITeacherService
 	{
-		IEnumerable<Teacher?> GetAllTeachers();
-		IEnumerable<Teacher?> GetBusyTeachers();
-		IEnumerable<Teacher?> GetAvailableTeachers();
+		Task<IEnumerable<Teacher?>> GetAllTeachers();
+		Task<IEnumerable<Teacher?>> GetBusyTeachers();
+		Task<IEnumerable<Teacher?>> GetAvailableTeachers();
 		Task<Teacher?> GetTeacherWithTripsById(int id);
 		Teacher? GetTeacherById(int id);
 		int CreateTeacher(Teacher teacher);

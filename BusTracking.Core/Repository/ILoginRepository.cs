@@ -11,7 +11,10 @@ namespace BusTracking.Core.Repository
 	public interface ILoginRepository
 	{
 		JWTPayload? VerifyinLogin(Login login);
-		Task CreateLogin(Login login);
+
+
+		bool IsEmailUsed(string email);
+		void CreateLogin(Login login);
 		void UpdateLogin(UpdateLoginData loginData);
 		void DeleteLogin(int userId);
     }

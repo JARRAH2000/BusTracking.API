@@ -43,9 +43,13 @@ namespace BusTracking.Infra.Service
 			);
 			return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 		}
-		public async Task CreateLogin(Login login)
+		public bool IsEmailUsed(string email)
 		{
-			await _loginRepository.CreateLogin(login);
+			return _loginRepository.IsEmailUsed(email);
+		}
+		public void CreateLogin(Login login)
+		{
+			 _loginRepository.CreateLogin(login);
 		}
 		public void UpdateLogin(UpdateLoginData loginData)
 		{

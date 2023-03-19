@@ -15,9 +15,9 @@ namespace BusTracking.API.Controllers
 			_testimonialService = testimonialService;
 		}
 		[HttpGet("GetAllTestimonials")]
-		public IEnumerable<Testimonial?> GetAllTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetAllTestimonials()
 		{
-			return _testimonialService.GetAllTestimonials();
+			return await _testimonialService.GetAllTestimonials();
 		}
 		[HttpGet("GetPublishedTestimonials")]
 		public async Task<IEnumerable<Testimonial?>> GetPublishedTestimonials()
@@ -25,14 +25,14 @@ namespace BusTracking.API.Controllers
 			return await _testimonialService.GetPublishedTestimonials();
 		}
 		[HttpGet("GetUnPublishedTestimonials")]
-		public IEnumerable<Testimonial?> GetUnPublishedTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetUnPublishedTestimonials()
 		{
-			return _testimonialService.GetUnPublishedTestimonials();
+			return await _testimonialService.GetUnPublishedTestimonials();
 		}
 		[HttpGet("GetTestimonialById/{id}")]
-		public Testimonial? GetTestimonialById(int id)
+		public async Task<Testimonial?> GetTestimonialById(int id)
 		{
-			return _testimonialService.GetTestimonialById(id);
+			return await _testimonialService.GetTestimonialById(id);
 		}
 		[HttpPost("CreateTestimonial")]
 		public void CreateTestimonial(Testimonial testimonial)

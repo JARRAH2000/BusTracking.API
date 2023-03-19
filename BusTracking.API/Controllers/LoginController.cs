@@ -21,10 +21,15 @@ namespace BusTracking.API.Controllers
 			string? token = _loginService.VerifyinLogin(login);
 			return token == null ? Unauthorized() : Ok(token);
 		}
-		[HttpPost("CreateLogin")]
-		public async Task CreateLogin(Login login)
+		[HttpGet("IsEmailUsed/{email}")]
+		public bool IsEmailUsed(string email)
 		{
-			await _loginService.CreateLogin(login);
+			return _loginService.IsEmailUsed(email);
+		}
+		[HttpPost("CreateLogin")]
+		public void CreateLogin(Login login)
+		{
+			 _loginService.CreateLogin(login);
 		}
 		[HttpPut("UpdateLogin")]
 		public void UpdateLogin(UpdateLoginData loginDate)

@@ -86,8 +86,8 @@ namespace BusTracking.Infra.Repository
 		}
 		public int CreateBus(Bus bus)
 		{
-			DynamicParameters parameters = new DynamicParameters(new 
-			{ 
+			DynamicParameters parameters = new DynamicParameters(new
+			{
 				CHAIRS = bus.Capacity,
 				PLATENUMBER = bus.Vrp,
 				BUSBRAND = bus.Brand,
@@ -95,10 +95,17 @@ namespace BusTracking.Infra.Repository
 				EXPIRED = bus.Licensedate,
 				IMG = bus.Image,
 				SID = bus.Statusid,
-				BID = bus.Id 
+				BID = bus.Id
 			});
-			_dbContext.Connection.Execute("BUS_PACKAGE.CREATE_BUS", parameters, commandType: CommandType.StoredProcedure);
-			return (int)parameters.Get<decimal>("BID");
+			try
+			{
+				_dbContext.Connection.Execute("BUS_PACKAGE.CREATE_BUS", parameters, commandType: CommandType.StoredProcedure);
+				return (int)parameters.Get<decimal>("BID");
+			}
+			catch (Exception)
+			{
+				return -1;
+			}
 		}
 		public void UpdateBus(Bus bus)
 		{

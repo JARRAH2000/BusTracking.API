@@ -32,16 +32,23 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { USERNAME = login.Email, SECRET = login.Password });
 			return _dbContext.Connection.Query<JWTPayload?>("LOGIN_PACKAGE.VERIFYING_LOGIN", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
-		public async Task CreateLogin(Login login)
+
+		public bool IsEmailUsed(string email)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { MAIL = email });
+			return _dbContext.Connection.Query<Login?>("LOGIN_PACKAGE.IS_EMAIL_USED", parameters, commandType: CommandType.StoredProcedure).ToList().Count == 0;
+		}
+		public void CreateLogin(Login login)
 		{
 			DynamicParameters parameters = new DynamicParameters(new { USERNAME = login.Email, SECRET = login.Password, UID = login.Userid });
 			try
 			{ 
 				_dbContext.Connection.Execute("LOGIN_PACKAGE.CREATE_LOGIN", parameters, commandType: CommandType.StoredProcedure);
 
-				MailSender mailSender = new(_mailCredentials);
+
+				//MailSender mailSender = new(_mailCredentials);
 				
-				await mailSender.SendEmailAsync(login.Email, "Login", "Hello welcome");
+				//await mailSender.SendEmailAsync(login.Email, "Login", "Hello welcome");
 
 			}
 			catch (Exception)

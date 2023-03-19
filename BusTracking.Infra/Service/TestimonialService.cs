@@ -16,21 +16,21 @@ namespace BusTracking.Infra.Service
 		{
 			_testimonialRepository = testimonialRepository;
 		}
-		public IEnumerable<Testimonial?> GetAllTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetAllTestimonials()
 		{
-			return _testimonialRepository.GetAllTestimonials();
+			return await _testimonialRepository.GetAllTestimonials();
 		}
 		public async Task<IEnumerable<Testimonial?>> GetPublishedTestimonials()
 		{
 			return await _testimonialRepository.GetPublishedTestimonials();
 		}
-		public IEnumerable<Testimonial?> GetUnPublishedTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetUnPublishedTestimonials()
 		{
-			return _testimonialRepository.GetUnPublishedTestimonials();
+			return await _testimonialRepository.GetUnPublishedTestimonials();
 		}
-		public Testimonial? GetTestimonialById(int id)
+		public async Task<Testimonial?> GetTestimonialById(int id)
 		{
-			return _testimonialRepository.GetTestimonialById(id);
+			return await _testimonialRepository.GetTestimonialById(id);
 		}
 		public void CreateTestimonial(Testimonial testimonial)
 		{

@@ -19,9 +19,13 @@ namespace BusTracking.Infra.Repository
 		{
 			_dbContext = dbContext;
 		}
-		public IEnumerable<Parent?> GetAllParents()
+		public async Task<IEnumerable<Parent?>> GetAllParents()
 		{
-			return _dbContext.Connection.Query<Parent?>("PARENT_PACKAGE.GET_ALL_PARENTS", commandType: CommandType.StoredProcedure).ToList();
+			return await _dbContext.Connection.QueryAsync<Parent?, User?, Parent?>("PARENT_PACKAGE.GET_ALL_PARENTS", (parent, user) =>
+			{
+				if(parent!=null)parent.User=user;
+				return parent;
+			},splitOn:"Id", commandType: CommandType.StoredProcedure);
 		}
 		public Parent? GetParentById(int id)
 		{

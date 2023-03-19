@@ -14,34 +14,50 @@ using System.Configuration;
 
 namespace BusTracking.Infra.Repository
 {
-	public class TestimonialRepository:ITestimonialRepository
+	public class TestimonialRepository : ITestimonialRepository
 	{
 		private readonly IDbContext _dbContext;
-		public TestimonialRepository(IDbContext dbContext) 
+		public TestimonialRepository(IDbContext dbContext)
 		{
 			_dbContext = dbContext;
 		}
-		public IEnumerable<Testimonial?> GetAllTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetAllTestimonials()
 		{
-			return _dbContext.Connection.Query<Testimonial?>("TESTIMONIAL_PACKAGE.GET_ALL_TESTIMONIALS", commandType: CommandType.StoredProcedure).ToList();
+			return await _dbContext.Connection.QueryAsync<Testimonial?, User?, Testimonial?>("TESTIMONIAL_PACKAGE.GET_ALL_TESTIMONIALS", (testimonial, user) =>
+			{
+				if (testimonial != null)
+					testimonial.User = user;
+				return testimonial;
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
 		}
 		public async Task<IEnumerable<Testimonial?>> GetPublishedTestimonials()
 		{
 			return await _dbContext.Connection.QueryAsync<Testimonial?, User?, Testimonial?>("TESTIMONIAL_PACKAGE.GET_PUBLISHED_TESTIMONIALS", (testimonial, user) =>
 			{
-				if(testimonial!=null)
-				testimonial.User = user;
+				if (testimonial != null)
+					testimonial.User = user;
 				return testimonial;
 			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
 		}
-		public IEnumerable<Testimonial?> GetUnPublishedTestimonials()
+		public async Task<IEnumerable<Testimonial?>> GetUnPublishedTestimonials()
 		{
-			return _dbContext.Connection.Query<Testimonial?>("TESTIMONIAL_PACKAGE.GET_UNPUBLISHED_TESTIMONIALS", commandType: CommandType.StoredProcedure);
+			return await _dbContext.Connection.QueryAsync<Testimonial?, User?, Testimonial?>("TESTIMONIAL_PACKAGE.GET_UNPUBLISHED_TESTIMONIALS", (testimonial, user) =>
+			{
+				if (testimonial != null)
+					testimonial.User = user;
+				return testimonial;
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
 		}
-		public Testimonial? GetTestimonialById(int id)
+		public async Task<Testimonial?> GetTestimonialById(int id)
 		{
 			DynamicParameters parameters = new DynamicParameters(new { TESTID = id });
-			return _dbContext.Connection.Query<Testimonial?>("TESTIMONIAL_PACKAGE.GET_TESTIMONIAL_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
+			IEnumerable<Testimonial?> testimonials = await _dbContext.Connection.QueryAsync<Testimonial?, User?, Testimonial?>("TESTIMONIAL_PACKAGE.GET_TESTIMONIAL_BY_ID", (testimonial, user) =>
+			{
+				if (testimonial != null) testimonial.User = user;
+				return testimonial;
+			}, splitOn: "Id", param: parameters, commandType: CommandType.StoredProcedure);
+			return testimonials.FirstOrDefault();
+			//return _dbContext.Connection.Query("TESTIMONIAL_PACKAGE.GET_TESTIMONIAL_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
 		public void CreateTestimonial(Testimonial testimonial)
 		{

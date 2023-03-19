@@ -16,19 +16,19 @@ namespace BusTracking.API.Controllers
 			_teacherService = teacherService;
 		}
 		[HttpGet("GetAllTeachers")]
-		public IEnumerable<Teacher?> GetAllTeachers()
+		public async Task<IEnumerable<Teacher?>> GetAllTeachers()
 		{
-			return _teacherService.GetAllTeachers();
+			return await _teacherService.GetAllTeachers();
 		}
 		[HttpGet("GetBusyTeachers")]
-		public IEnumerable<Teacher?> GetBusyTeachers()
+		public async Task<IEnumerable<Teacher?>> GetBusyTeachers()
 		{
-			return _teacherService.GetBusyTeachers();
+			return await _teacherService.GetBusyTeachers();
 		}
 		[HttpGet("GetAvailableTeachers")]
-		public IEnumerable<Teacher?> GetAvailableTeachers()
+		public async Task<IEnumerable<Teacher?>> GetAvailableTeachers()
 		{
-			return _teacherService.GetAvailableTeachers();
+			return await _teacherService.GetAvailableTeachers();
 		}
 		[HttpGet("GetTeacherWithTripsById/{id}")]
 		public async Task<Teacher?> GetTeacherWithTripsById(int id)

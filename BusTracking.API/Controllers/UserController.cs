@@ -84,7 +84,7 @@ namespace BusTracking.API.Controllers
 		{
 			IFormFile formFile = Request.Form.Files[0];
 			string fileName = Guid.NewGuid().ToString() + "_" + formFile.FileName;
-			string fullPath = Path.Combine("Images/Users", fileName);
+			string fullPath = Path.Combine("C:/Users/user/Desktop/AngularProject/src/assets/Images", fileName);
 			using(FileStream stream=new FileStream(fullPath,FileMode.Create))
 			{
 				formFile.CopyTo(stream);
