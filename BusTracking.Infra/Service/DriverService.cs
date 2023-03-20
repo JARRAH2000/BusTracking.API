@@ -16,25 +16,25 @@ namespace BusTracking.Infra.Service
 		{
 			_driverRepository = driverRepository;
 		}
-		public IEnumerable<Driver?> GetAllDrivers()
+		public async Task<IEnumerable<Driver?>> GetAllDrivers()
 		{
-			return _driverRepository.GetAllDrivers();
+			return await _driverRepository.GetAllDrivers();
 		}
-		public IEnumerable<Driver?> GetBusyDrivers()
+		public async Task<IEnumerable<Driver?>> GetBusyDrivers()
 		{
-			return _driverRepository.GetBusyDrivers();
+			return await _driverRepository.GetBusyDrivers();
 		}
-		public IEnumerable<Driver?> GetAvailableDrivers()
+		public async Task<IEnumerable<Driver?>> GetAvailableDrivers()
 		{
-			return _driverRepository.GetAvailableDrivers();
+			return  await _driverRepository.GetAvailableDrivers();
 		}
-		public IEnumerable<Driver?> GetExpiredLicenseDrivers()
+		public async Task<IEnumerable<Driver?>> GetExpiredLicenseDrivers()
 		{
-			return _driverRepository.GetExpiredLicenseDrivers();
+			return await _driverRepository.GetExpiredLicenseDrivers();
 		}
-		public Driver? GetDriverById(int id)
+		public async Task<Driver?> GetDriverById(int id)
 		{
-			return _driverRepository.GetDriverById(id);
+			return await _driverRepository.GetDriverById(id);
 		}
 		public async Task<Driver?> GetDriverWithTripsById(int id)
 		{

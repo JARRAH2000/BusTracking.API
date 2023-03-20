@@ -19,26 +19,57 @@ namespace BusTracking.Infra.Repository
 		{
 			_dbContext = dbContext;
 		}
-		public IEnumerable<Driver?> GetAllDrivers()
+		public async Task<IEnumerable<Driver?>> GetAllDrivers()
 		{
-			return _dbContext.Connection.Query<Driver?>("DRIVER_PACKAGE.GET_ALL_DRIVERS", commandType: CommandType.StoredProcedure).ToList();
+			return await _dbContext.Connection.QueryAsync<Driver?, User?, Driver?>("DRIVER_PACKAGE.GET_ALL_DRIVERS", (driver, user)=>
+			{
+				if (driver == null) return driver;
+				driver.User = user;
+				if(driver.User!=null)driver.User.Logins= _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList(); _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList();
+				return driver;
+			},splitOn:"Id", commandType: CommandType.StoredProcedure);
 		}
-		public IEnumerable<Driver?> GetBusyDrivers()
+		public async Task<IEnumerable<Driver?>> GetBusyDrivers()
 		{
-			return _dbContext.Connection.Query<Driver?>("DRIVER_PACKAGE.GET_BUSY_DRIVERS", commandType: CommandType.StoredProcedure).ToList();
+			return await _dbContext.Connection.QueryAsync<Driver?, User?, Driver?>("DRIVER_PACKAGE.GET_BUSY_DRIVERS", (driver, user) =>
+			{
+				if (driver == null) return driver;
+				driver.User = user;
+				if (driver.User != null) driver.User.Logins = _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList(); _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList();
+				return driver;
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
 		}
-		public IEnumerable<Driver?> GetAvailableDrivers()
+		public async Task<IEnumerable<Driver?>> GetAvailableDrivers()
 		{
-			return _dbContext.Connection.Query<Driver?>("DRIVER_PACKAGE.GET_AVAILABLE_DRIVERS", commandType: CommandType.StoredProcedure).ToList();
+			return await _dbContext.Connection.QueryAsync<Driver?,User?,Driver?>("DRIVER_PACKAGE.GET_AVAILABLE_DRIVERS", (driver, user) =>
+			{
+				if (driver == null) return driver;
+				driver.User = user;
+				if (driver.User != null) driver.User.Logins = _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList(); _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList();
+				return driver;
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
 		}
-		public IEnumerable<Driver?> GetExpiredLicenseDrivers()
+		public async Task<IEnumerable<Driver?>> GetExpiredLicenseDrivers()
 		{
-			return _dbContext.Connection.Query<Driver?>("DRIVER_PACKAGE.GET_EXPIRED_LICENSE_DRIVERS", commandType: CommandType.StoredProcedure).ToList();
+			return await _dbContext.Connection.QueryAsync<Driver?,User?,Driver?>("DRIVER_PACKAGE.GET_EXPIRED_LICENSE_DRIVERS", (driver, user) =>
+			{
+				if (driver == null) return driver;
+				driver.User = user;
+				if (driver.User != null) driver.User.Logins = _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList(); _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList();
+				return driver;
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
 		}
-		public Driver? GetDriverById(int id)
+		public async Task<Driver?> GetDriverById(int id)
 		{
 			DynamicParameters parameters = new DynamicParameters(new { DRIVERID = id });
-			return _dbContext.Connection.Query<Driver?>("DRIVER_PACKAGE.GET_DRIVER_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
+			IEnumerable<Driver?> drivers = await _dbContext.Connection.QueryAsync<Driver?, User?, Driver?>("DRIVER_PACKAGE.GET_DRIVER_BY_ID", (driver, user) =>
+			{
+				if (driver == null) return driver;
+				driver.User = user;
+				if (driver.User != null) driver.User.Logins = _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList(); _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList();
+				return driver;
+			}, splitOn: "Id", param: parameters, commandType: CommandType.StoredProcedure);
+			return drivers.FirstOrDefault();
 		}
 
 		public async Task<Driver?> GetDriverWithTripsById(int id)

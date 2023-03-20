@@ -23,9 +23,11 @@ namespace BusTracking.Infra.Repository
 		{
 			return await _dbContext.Connection.QueryAsync<Parent?, User?, Parent?>("PARENT_PACKAGE.GET_ALL_PARENTS", (parent, user) =>
 			{
-				if(parent!=null)parent.User=user;
+				if (parent == null) return parent;
+				parent.User = user;
+				if (parent.User != null) parent.User.Logins = _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = parent.Userid }), commandType: CommandType.StoredProcedure).ToList();
 				return parent;
-			},splitOn:"Id", commandType: CommandType.StoredProcedure);
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
 		}
 		public Parent? GetParentById(int id)
 		{

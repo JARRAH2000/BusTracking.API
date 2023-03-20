@@ -8,11 +8,11 @@ namespace BusTracking.Core.Service
 {
 	public interface IDriverService
 	{
-		IEnumerable<Driver?> GetAllDrivers();
-		IEnumerable<Driver?> GetBusyDrivers();
-		IEnumerable<Driver?> GetAvailableDrivers();
-		IEnumerable<Driver?> GetExpiredLicenseDrivers();
-		Driver?GetDriverById(int id);
+		Task<IEnumerable<Driver?>> GetAllDrivers();
+		Task<IEnumerable<Driver?>> GetBusyDrivers();
+		Task<IEnumerable<Driver?>> GetAvailableDrivers();
+		Task<IEnumerable<Driver?>> GetExpiredLicenseDrivers();
+		Task<Driver?> GetDriverById(int id);
 		Task<Driver?> GetDriverWithTripsById(int id);
 		int CreateDriver(Driver driver);
 		void UpdateDriver(Driver driver);

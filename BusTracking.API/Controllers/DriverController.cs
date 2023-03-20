@@ -15,29 +15,29 @@ namespace BusTracking.API.Controllers
 			_driverService = driverService;
 		}
 		[HttpGet("GetAllDrivers")]
-		public IEnumerable<Driver?> GetAllDrivers()
+		public async Task<IEnumerable<Driver?>> GetAllDrivers()
 		{
-			return _driverService.GetAllDrivers();
+			return await _driverService.GetAllDrivers();
 		}
 		[HttpGet("GetBusyDrivers")]
-		public IEnumerable<Driver?> GetBusyDrivers()
+		public async Task<IEnumerable<Driver?>> GetBusyDrivers()
 		{
-			return _driverService.GetBusyDrivers();
+			return await _driverService.GetBusyDrivers();
 		}
 		[HttpGet("GetAvailableDrivers")]
-		public IEnumerable<Driver?> GetAvailableDrivers()
+		public async Task<IEnumerable<Driver?>> GetAvailableDrivers()
 		{
-			return _driverService.GetAvailableDrivers();
+			return await _driverService.GetAvailableDrivers();
 		}
 		[HttpGet("GetExpiredLicenseDrivers")]
-		public IEnumerable<Driver?> GetExpiredLicenseDrivers()
+		public async Task<IEnumerable<Driver?>> GetExpiredLicenseDrivers()
 		{
-			return _driverService.GetExpiredLicenseDrivers();
+			return await _driverService.GetExpiredLicenseDrivers();
 		}
 		[HttpGet("GetDriverById/{id}")]
-		public Driver? GetDriverById(int id)
+		public async Task<Driver?> GetDriverById(int id)
 		{
-			return _driverService.GetDriverById(id);
+			return await _driverService.GetDriverById(id);
 		}
 		[HttpGet("GetDriverWithTripsById/{id}")]
 		public async Task<Driver?> GetDriverWithTripsById(int id)

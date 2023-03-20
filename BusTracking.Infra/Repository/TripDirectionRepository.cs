@@ -20,31 +20,31 @@ namespace BusTracking.Infra.Repository
 		}
 		public IEnumerable<Tripdirection?> GetAllTripDirections()
 		{
-			return _dbContext.Connection.Query<Tripdirection?>("Tripdirection_package.Getall_Tripdirection", commandType: CommandType.StoredProcedure).ToList();
+			return _dbContext.Connection.Query<Tripdirection?>("TRIPDIRECTION_PACKAGE.GET_ALL_TRIPDIRECTIONS", commandType: CommandType.StoredProcedure).ToList();
 		}
 		public Tripdirection? GetTripDirectionById(int id)
 		{
-			DynamicParameters parameters = new DynamicParameters(new { DirectID = id });
-			return _dbContext.Connection.Query<Tripdirection?>("Tripdirection_package.GET_Tripdirection_BY_ID", commandType: CommandType.StoredProcedure).FirstOrDefault();
+			DynamicParameters parameters = new DynamicParameters(new { DIRECTIONID = id });
+			return _dbContext.Connection.Query<Tripdirection?>("TRIPDIRECTION_PACKAGE.GET_TRIPDIRECTION_BY_ID", commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
 		public void CreateTripDirection(Tripdirection tripdirection)
 		{
-			DynamicParameters parameters = new DynamicParameters(new { Direct = tripdirection.Direction });
-			_dbContext.Connection.Execute("Tripdirection_package.Create_Tripdirection", parameters, commandType: CommandType.StoredProcedure);
+			DynamicParameters parameters = new DynamicParameters(new { DIRECT = tripdirection.Direction });
+			_dbContext.Connection.Execute("TRIPDIRECTION_PACKAGE.CREATE_TRIPDIRECTION", parameters, commandType: CommandType.StoredProcedure);
 		}
 		public void UpdateTripDirection(Tripdirection tripdirection)
 		{
 			DynamicParameters parameters = new DynamicParameters(new
 			{
-				DirectID = tripdirection.Id,
-				Direct = tripdirection.Direction
+				DIRECTIONID = tripdirection.Id,
+				DIRECT = tripdirection.Direction
 			});
-			_dbContext.Connection.Execute("Tripdirection_package.Update_Tripdirection", parameters, commandType: CommandType.StoredProcedure);
+			_dbContext.Connection.Execute("TRIPDIRECTION_PACKAGE.UPDATE_TRIPDIRECTION", parameters, commandType: CommandType.StoredProcedure);
 		}
 		public void DeleteTripDirection(int id)
 		{
-			DynamicParameters parameters = new DynamicParameters(new { DirectID = id });
-			_dbContext.Connection.Execute("Tripdirection_package.Delete_Tripdirection", parameters, commandType: CommandType.StoredProcedure);
+			DynamicParameters parameters = new DynamicParameters(new { DIRECTIONID = id });
+			_dbContext.Connection.Execute("TRIPDIRECTION_PACKAGE.DELETE_TRIPDIRECTION", parameters, commandType: CommandType.StoredProcedure);
 		}
 	}
 }
