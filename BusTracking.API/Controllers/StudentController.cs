@@ -15,14 +15,14 @@ namespace BusTracking.API.Controllers
 			_studentService = studentService;
 		}
 		[HttpGet("GetAllStudents")]
-		public IEnumerable<Student?> GetAllStudents()
+		public async Task<IEnumerable<Student?>> GetAllStudents()
 		{
-			return _studentService.GetAllStudents();
+			return await _studentService.GetAllStudents();
 		}
 		[HttpGet("GetStudentById/{id}")]
-		public Student? GetStudentById(int id)
+		public async Task<Student?> GetStudentById(int id)
 		{
-			return _studentService.GetStudentById(id);
+			return await _studentService.GetStudentById(id);
 		}
 		[HttpGet("GetStudentAbsenceById/{id}")]
 		public async Task<Student?> GetStudentAbsenceById(int id)

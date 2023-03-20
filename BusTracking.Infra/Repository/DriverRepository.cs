@@ -24,6 +24,7 @@ namespace BusTracking.Infra.Repository
 			return await _dbContext.Connection.QueryAsync<Driver?, User?, Driver?>("DRIVER_PACKAGE.GET_ALL_DRIVERS", (driver, user)=>
 			{
 				if (driver == null) return driver;
+				driver.Status = _dbContext.Connection.Query<Employeestatus>("EMPLOYEESTATUS_PACKAGE.GET_STATUS_BY_ID", new DynamicParameters(new { SID = driver.Statusid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
 				driver.User = user;
 				if(driver.User!=null)driver.User.Logins= _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList(); _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList();
 				return driver;

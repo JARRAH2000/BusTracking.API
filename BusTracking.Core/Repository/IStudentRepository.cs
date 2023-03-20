@@ -8,8 +8,8 @@ namespace BusTracking.Core.Repository
 {
 	public interface IStudentRepository
 	{
-		IEnumerable<Student?> GetAllStudents();
-		Student? GetStudentById(int id);
+		Task<IEnumerable<Student?>> GetAllStudents();
+		Task<Student?> GetStudentById(int id);
 		Task<Student?> GetStudentAbsenceById(int id);
 
 		IEnumerable<Student?> GetStudentByName(string stdName);

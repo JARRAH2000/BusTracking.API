@@ -11,6 +11,7 @@ using System.Data;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Cryptography;
+using System.Collections.ObjectModel;
 
 namespace BusTracking.Infra.Repository
 {
@@ -21,14 +22,37 @@ namespace BusTracking.Infra.Repository
 		{
 			_dbContext = dbContext;
 		}
-		public IEnumerable<Student?> GetAllStudents()
+		public async Task<IEnumerable<Student?>> GetAllStudents()
 		{
-			return _dbContext.Connection.Query<Student?>("STUDENT_PACKAGE.GET_ALL_STUDENTS", commandType: CommandType.StoredProcedure).ToList();
+			return await _dbContext.Connection.QueryAsync<Student?, Studentstatus?, Parent?, User?, Login?, Student?>("STUDENT_PACKAGE.GET_ALL_STUDENTS", (student, studentStatus, parent, user, login) =>
+			{
+				if (student == null) return student;
+				student.Status = studentStatus;
+				student.Parent = parent;
+				if (student.Parent == null) return student;
+				student.Parent.User = user;
+				if (student.Parent.User != null && login != null)
+					student.Parent.User.Logins = new List<Login> { login };
+				return student;
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
+			//return _dbContext.Connection.Query<Student?>("STUDENT_PACKAGE.GET_ALL_STUDENTS", commandType: CommandType.StoredProcedure).ToList();
 		}
-		public Student? GetStudentById(int id)
+		public async Task<Student?> GetStudentById(int id)
 		{
 			DynamicParameters parameters=new DynamicParameters(new { STUDENTID =id});
-			return _dbContext.Connection.Query<Student?>("STUDENT_PACKAGE.GET_STUDENT_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
+			IEnumerable<Student?>students= await _dbContext.Connection.QueryAsync<Student?, Studentstatus?, Parent?, User?, Login?, Student?>("STUDENT_PACKAGE.GET_STUDENT_BY_ID", (student, studentStatus, parent, user, login) =>
+			{
+				if (student == null) return student;
+				student.Status = studentStatus;
+				student.Parent = parent;
+				if (student.Parent == null) return student;
+				student.Parent.User = user;
+				if (student.Parent.User != null && login != null)
+					student.Parent.User.Logins = new List<Login> { login };
+				return student;
+			}, splitOn: "Id",param:parameters, commandType: CommandType.StoredProcedure);
+			return students.FirstOrDefault();
+			//return _dbContext.Connection.Query<Student?>("STUDENT_PACKAGE.GET_STUDENT_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
 		public async Task<Student?> GetStudentAbsenceById(int id)
 		{

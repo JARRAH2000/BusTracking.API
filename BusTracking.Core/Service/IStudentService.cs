@@ -9,8 +9,8 @@ namespace BusTracking.Core.Service
 {
 	public interface IStudentService
 	{
-		IEnumerable<Student?> GetAllStudents();
-		Student? GetStudentById(int id);
+		Task<IEnumerable<Student?>> GetAllStudents();
+		Task<Student?> GetStudentById(int id);
 		Task<Student?> GetStudentAbsenceById(int id);
 		IEnumerable<Student?> GetStudentByName(string stdName);
 		int CreateStudent(Student student);

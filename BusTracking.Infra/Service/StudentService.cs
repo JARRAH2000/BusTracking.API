@@ -17,13 +17,13 @@ namespace BusTracking.Infra.Service
 		{
 			_studentRepository = studentRepository;
 		}
-		public IEnumerable<Student?> GetAllStudents()
+		public async Task<IEnumerable<Student?>> GetAllStudents()
 		{
-			return _studentRepository.GetAllStudents();
+			return await _studentRepository.GetAllStudents();
 		}
-		public Student? GetStudentById(int id)
+		public async Task<Student?> GetStudentById(int id)
 		{
-			return _studentRepository.GetStudentById(id);
+			return await _studentRepository.GetStudentById(id);
 		}
 		public async Task<Student?> GetStudentAbsenceById(int id)
 		{
