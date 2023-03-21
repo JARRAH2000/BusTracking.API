@@ -36,7 +36,7 @@ namespace BusTracking.Infra.Repository
 				STDID = tripstudent.Studentid,
 				TRID = tripstudent.Tripid
 			});
-			_dbContext.Connection.Query<Tripstudent?>("TRIPSTUDENT_PACKAGE.CREATE_TRIPSTUDENT", parameters, commandType: CommandType.StoredProcedure);
+			_dbContext.Connection.Execute("TRIPSTUDENT_PACKAGE.CREATE_TRIPSTUDENT", parameters, commandType: CommandType.StoredProcedure);
 		}
 		public void UpdateTripStudent(Tripstudent tripstudent)
 		{
@@ -47,12 +47,12 @@ namespace BusTracking.Infra.Repository
 				TRID = tripstudent.Tripid,
 				TRPSID = tripstudent.Id
 			});
-			_dbContext.Connection.Query<Tripstudent?>("TRIPSTUDENT_PACKAGE.UPDEATE_TRIPSTUDENT", parameters, commandType: CommandType.StoredProcedure);
+			_dbContext.Connection.Execute("TRIPSTUDENT_PACKAGE.UPDEATE_TRIPSTUDENT", parameters, commandType: CommandType.StoredProcedure);
 		}
 		public void DeleteTripStudent(int id)
 		{
-			DynamicParameters parameters = new DynamicParameters(new { TRPSID = id });
-			_dbContext.Connection.Query<Tripstudent?>("TRIPSTUDENT_PACKAGE.DELETE_TRIPSTUDENT", parameters, commandType: CommandType.StoredProcedure);
+			DynamicParameters parameters = new DynamicParameters(new { TRPID = id });
+			_dbContext.Connection.Execute("TRIPSTUDENT_PACKAGE.DELETE_TRIPSTUDENT", parameters, commandType: CommandType.StoredProcedure);
 		}
 	}
 }
