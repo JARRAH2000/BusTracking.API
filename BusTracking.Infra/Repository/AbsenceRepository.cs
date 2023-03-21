@@ -42,15 +42,23 @@ namespace BusTracking.Infra.Repository
 				STUDENT = absence.Studentid,
 				ABSENCEID = absence.Id
 			});
-			_dbContext.Connection.Execute("ABSENCE_PACKAGE.CREATE_ABSENCE", parameters, commandType: CommandType.StoredProcedure);
-			DynamicParameters emailParameters = new DynamicParameters(new
+			try
 			{
-				ABSENCEID = parameters.Get<decimal>("ABSENCEID")
-			});
-			AbsenceEmail? absenceEmail = _dbContext.Connection.Query<AbsenceEmail>("ABSENCE_PACKAGE.GET_ABSENCE_INFO_EMAIL", emailParameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
-			MailSender mailSender = new MailSender(_mailCredentials);
+
+			_dbContext.Connection.Execute("ABSENCE_PACKAGE.CREATE_ABSENCE", parameters, commandType: CommandType.StoredProcedure);
+			}
+			catch (Exception)
+			{
+
+			}
+			//DynamicParameters emailParameters = new DynamicParameters(new
+			//{
+			//	ABSENCEID = parameters.Get<decimal>("ABSENCEID")
+			//});
+			//AbsenceEmail? absenceEmail = _dbContext.Connection.Query<AbsenceEmail>("ABSENCE_PACKAGE.GET_ABSENCE_INFO_EMAIL", emailParameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
+			//MailSender mailSender = new MailSender(_mailCredentials);
 			
-			await mailSender.AbsenceEmailAsync(absenceEmail);
+			//await mailSender.AbsenceEmailAsync(absenceEmail);
 			//return (int)parameters.Get<decimal>("ABSENCEID");
 		}
 		public void UpdateAbsence(Absence absence)

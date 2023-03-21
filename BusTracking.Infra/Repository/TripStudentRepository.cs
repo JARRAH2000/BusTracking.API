@@ -51,7 +51,7 @@ namespace BusTracking.Infra.Repository
 		}
 		public void DeleteTripStudent(int id)
 		{
-			DynamicParameters parameters = new DynamicParameters(new { TRPID = id });
+			DynamicParameters parameters = new DynamicParameters(new { TRPSID = id });
 			_dbContext.Connection.Execute("TRIPSTUDENT_PACKAGE.DELETE_TRIPSTUDENT", parameters, commandType: CommandType.StoredProcedure);
 		}
 	}

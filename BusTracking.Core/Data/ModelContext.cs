@@ -74,7 +74,7 @@ public partial class ModelContext : DbContext
                 .HasColumnType("NUMBER(38)")
                 .HasColumnName("ID");
             entity.Property(e => e.Checkingtime)
-                .HasPrecision(6)
+                .HasColumnType("DATE")
                 .HasColumnName("CHECKINGTIME");
             entity.Property(e => e.Studentid)
                 .HasColumnType("NUMBER(38)")
