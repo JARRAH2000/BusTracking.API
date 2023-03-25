@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Security.Cryptography;
+
 namespace BusTracking.Infra.Repository
 {
 	public class TeacherRepository:ITeacherRepository
@@ -23,7 +25,6 @@ namespace BusTracking.Infra.Repository
 			{
 				if (teacher == null) return teacher;
 				teacher.User = user;
-				//if(teacher.User!=null)teacher.User.Logins=
 				teacher.Status= _dbContext.Connection.Query<Employeestatus>("EMPLOYEESTATUS_PACKAGE.GET_STATUS_BY_ID", new DynamicParameters(new {SID=teacher.Statusid}), commandType: CommandType.StoredProcedure).FirstOrDefault();
 				return teacher;
 			},splitOn:"Id", commandType: CommandType.StoredProcedure);
@@ -84,6 +85,21 @@ namespace BusTracking.Infra.Repository
 			});
 			return teachers?.FirstOrDefault();
 		}
+		public async Task<Teacher?> GetTeacherByUserId(int userId)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { UID = userId });
+			IEnumerable<Teacher?> teachers = await _dbContext.Connection.QueryAsync<Teacher?, User?, Employeestatus?, Login?, Teacher?>("TEACHER_PACKAGE.GET_TEACHER_ID_BY_USER_ID", (teacher, user, status, login) =>
+			{
+				if (teacher == null) return teacher;
+				teacher.User = user;
+				teacher.Status = status;
+				if (teacher.User != null && login != null) teacher.User.Logins = new List<Login> { login };
+
+				return teacher;
+			}, splitOn: "Id", param: parameters, commandType: CommandType.StoredProcedure);
+			return teachers.FirstOrDefault();
+		}
+
 		public int CreateTeacher(Teacher teacher)
 		{
 			DynamicParameters parameters = new DynamicParameters(new

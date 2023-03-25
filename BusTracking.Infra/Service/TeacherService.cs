@@ -36,6 +36,11 @@ namespace BusTracking.Infra.Service
 		{
 			return _teacherRepository.GetTeacherById(id);
 		}
+		public async Task<Teacher?> GetTeacherByUserId(int userId)
+		{
+			return await _teacherRepository.GetTeacherByUserId(userId);
+		}
+
 		public int CreateTeacher(Teacher teacher)
 		{
 			return _teacherRepository.CreateTeacher(teacher);

@@ -40,6 +40,11 @@ namespace BusTracking.API.Controllers
 		{
 			return _teacherService.GetTeacherById(id);
 		}
+		[HttpGet("GetTeacherByUserId/{userId}")]
+		public async Task<Teacher?> GetTeacherByUserId(int userId)
+		{
+			return await _teacherService.GetTeacherByUserId(userId);
+		}
 		[HttpPost("CreateTeacher")]
 		public int CreateTeacher(Teacher teacher)
 		{

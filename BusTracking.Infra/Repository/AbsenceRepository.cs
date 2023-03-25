@@ -39,13 +39,30 @@ namespace BusTracking.Infra.Repository
 			{
 				CHECKTIME = absence.Checkingtime,
 				TECHER = absence.Teacherid,
-				STUDENT = absence.Studentid,
+				STDENT = absence.Studentid,
 				ABSENCEID = absence.Id
 			});
 			try
 			{
+				_dbContext.Connection.Execute("ABSENCE_PACKAGE.CREATE_ABSENCE", parameters, commandType: CommandType.StoredProcedure);
 
-			_dbContext.Connection.Execute("ABSENCE_PACKAGE.CREATE_ABSENCE", parameters, commandType: CommandType.StoredProcedure);
+				DynamicParameters param = new DynamicParameters(new { STUDENTID = absence.Studentid });
+				IEnumerable<Student?> students = await _dbContext.Connection.QueryAsync<Student?, Studentstatus?, Parent?, User?, Login?, Student?>("STUDENT_PACKAGE.GET_STUDENT_BY_ID", (student, studentStatus, parent, user, login) =>
+				{
+					if (student == null) return student;
+					student.Status = studentStatus;
+					student.Parent = parent;
+					if (student.Parent == null) return student;
+					student.Parent.User = user;
+					if (student.Parent.User != null && login != null)
+						student.Parent.User.Logins = new List<Login> { login };
+					return student;
+				}, splitOn: "Id", param: param, commandType: CommandType.StoredProcedure);
+				Student? student = students.FirstOrDefault();
+				if (student != null && student.Absencenotify == "Y")
+				{
+					//Absence email Notification add here after checks that parent email is valid
+				}
 			}
 			catch (Exception)
 			{
@@ -57,7 +74,7 @@ namespace BusTracking.Infra.Repository
 			//});
 			//AbsenceEmail? absenceEmail = _dbContext.Connection.Query<AbsenceEmail>("ABSENCE_PACKAGE.GET_ABSENCE_INFO_EMAIL", emailParameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 			//MailSender mailSender = new MailSender(_mailCredentials);
-			
+
 			//await mailSender.AbsenceEmailAsync(absenceEmail);
 			//return (int)parameters.Get<decimal>("ABSENCEID");
 		}
