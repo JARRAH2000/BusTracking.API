@@ -10,8 +10,9 @@ public partial class Teacher
     public decimal? Userid { get; set; }
 
     public decimal? Statusid { get; set; }
+	public decimal? Currenttrip { get; set; }
 
-    public virtual ICollection<Absence> Absences { get; } = new List<Absence>();
+	public virtual ICollection<Absence> Absences { get; } = new List<Absence>();
 
     public virtual Employeestatus? Status { get; set; }
 

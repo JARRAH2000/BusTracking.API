@@ -45,16 +45,16 @@ public partial class ModelContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-	public virtual DbSet<Contact> Contacts { get; set; }
+    public virtual DbSet<Contact> Contacts { get; set; }
 
-	public virtual DbSet<Content> Contents { get; set; }
+    public virtual DbSet<Content> Contents { get; set; }
 
-	public virtual DbSet<Review> Reviews { get; set; }
+    public virtual DbSet<Review> Reviews { get; set; }
 
-	public virtual DbSet<Testimonial> Testimonials { get; set; }
+    public virtual DbSet<Testimonial> Testimonials { get; set; }
 
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseOracle("User Id=JOR15_User76;PASSWORD=Test321;DATA SOURCE=94.56.229.181:3488/traindb");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -132,6 +132,10 @@ public partial class ModelContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("VRP");
 
+            entity.Property(e => e.Currenttrip)
+            .HasColumnType("NUMBER(38)")
+            .HasColumnName("CURRENTTRIP");
+
             entity.HasOne(d => d.Status).WithMany(p => p.Buses)
                 .HasForeignKey(d => d.Statusid)
                 .OnDelete(DeleteBehavior.SetNull)
@@ -157,6 +161,10 @@ public partial class ModelContext : DbContext
             entity.Property(e => e.Userid)
                 .HasColumnType("NUMBER(38)")
                 .HasColumnName("USERID");
+
+            entity.Property(e => e.Currenttrip)
+            .HasColumnType("NUMBER(38)")
+            .HasColumnName("CURRENTTRIP");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Drivers)
                 .HasForeignKey(d => d.Statusid)
@@ -357,6 +365,9 @@ public partial class ModelContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("TOSCHOOLNOTIFY");
+            entity.Property(e => e.Currenttrip)
+            .HasColumnType("NUMBER(38)")
+            .HasColumnName("CURRENTTRIP");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.Students)
                 .HasForeignKey(d => d.Parentid)
@@ -401,7 +412,9 @@ public partial class ModelContext : DbContext
             entity.Property(e => e.Userid)
                 .HasColumnType("NUMBER(38)")
                 .HasColumnName("USERID");
-
+            entity.Property(e => e.Currenttrip)
+            .HasColumnType("NUMBER(38)")
+            .HasColumnName("CURRENTTRIP");
             entity.HasOne(d => d.Status).WithMany(p => p.Teachers)
                 .HasForeignKey(d => d.Statusid)
                 .OnDelete(DeleteBehavior.SetNull)
@@ -570,132 +583,132 @@ public partial class ModelContext : DbContext
         });
 
 
-		modelBuilder.Entity<Contact>(entity =>
-		{
-			entity.HasKey(e => e.Id).HasName("SYS_C00325255");
+        modelBuilder.Entity<Contact>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("SYS_C00325255");
 
-			entity.ToTable("CONTACT");
+            entity.ToTable("CONTACT");
 
-			entity.Property(e => e.Id)
-				.ValueGeneratedOnAdd()
-				.HasColumnType("NUMBER(38)")
-				.HasColumnName("ID");
-			entity.Property(e => e.Email)
-				.HasMaxLength(256)
-				.IsUnicode(false)
-				.HasColumnName("EMAIL");
-			entity.Property(e => e.Message)
-				.HasMaxLength(500)
-				.IsUnicode(false)
-				.HasColumnName("MESSAGE");
-			entity.Property(e => e.Title)
-				.HasMaxLength(50)
-				.IsUnicode(false)
-				.HasColumnName("TITLE");
-			entity.Property(e => e.Name)
-				.HasMaxLength(50)
-				.IsUnicode(false)
-				.HasColumnName("NAME");
-			entity.Property(e => e.Sendtime)
-				.HasPrecision(6)
-				.HasColumnName("SENDTIME");
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("ID");
+            entity.Property(e => e.Email)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("EMAIL");
+            entity.Property(e => e.Message)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("MESSAGE");
+            entity.Property(e => e.Title)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("TITLE");
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("NAME");
+            entity.Property(e => e.Sendtime)
+                .HasPrecision(6)
+                .HasColumnName("SENDTIME");
 
-		});
+        });
 
-		modelBuilder.Entity<Content>(entity =>
-		{
-			entity.HasKey(e => e.Id).HasName("SYS_C00325265");
+        modelBuilder.Entity<Content>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("SYS_C00325265");
 
-			entity.ToTable("CONTENT");
+            entity.ToTable("CONTENT");
 
-			entity.Property(e => e.Id)
-				.ValueGeneratedOnAdd()
-				.HasColumnType("NUMBER(38)")
-				.HasColumnName("ID");
-			entity.Property(e => e.About)
-				.HasMaxLength(256)
-				.IsUnicode(false)
-				.HasColumnName("ABOUT");
-			entity.Property(e => e.Email)
-				.HasMaxLength(256)
-				.IsUnicode(false)
-				.HasColumnName("EMAIL");
-			entity.Property(e => e.Facebook)
-				.HasMaxLength(256)
-				.IsUnicode(false)
-				.HasColumnName("FACEBOOK");
-			entity.Property(e => e.Greeting)
-				.HasMaxLength(256)
-				.IsUnicode(false)
-				.HasColumnName("GREETING");
-			entity.Property(e => e.Mainlogo)
-				.HasMaxLength(256)
-				.IsUnicode(false)
-				.HasColumnName("MAINLOGO");
-			entity.Property(e => e.Paragraph)
-				.HasMaxLength(256)
-				.IsUnicode(false)
-				.HasColumnName("PARAGRAPH");
-			entity.Property(e => e.Telephone)
-				.HasMaxLength(20)
-				.IsUnicode(false)
-				.HasColumnName("TELEPHONE");
-			entity.Property(e => e.Youtube)
-				.HasMaxLength(256)
-				.IsUnicode(false)
-				.HasColumnName("YOUTUBE");
-		});
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("ID");
+            entity.Property(e => e.About)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("ABOUT");
+            entity.Property(e => e.Email)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("EMAIL");
+            entity.Property(e => e.Facebook)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("FACEBOOK");
+            entity.Property(e => e.Greeting)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("GREETING");
+            entity.Property(e => e.Mainlogo)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("MAINLOGO");
+            entity.Property(e => e.Paragraph)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("PARAGRAPH");
+            entity.Property(e => e.Telephone)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("TELEPHONE");
+            entity.Property(e => e.Youtube)
+                .HasMaxLength(256)
+                .IsUnicode(false)
+                .HasColumnName("YOUTUBE");
+        });
 
-		modelBuilder.Entity<Review>(entity =>
-		{
-			entity.HasKey(e => e.Id).HasName("SYS_C00325268");
+        modelBuilder.Entity<Review>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("SYS_C00325268");
 
-			entity.ToTable("REVIEW");
+            entity.ToTable("REVIEW");
 
-			entity.HasIndex(e => e.Parentid, "SYS_C00325269").IsUnique();
+            entity.HasIndex(e => e.Parentid, "SYS_C00325269").IsUnique();
 
-			entity.Property(e => e.Id)
-				.ValueGeneratedOnAdd()
-				.HasColumnType("NUMBER(38)")
-				.HasColumnName("ID");
-			entity.Property(e => e.Parentid)
-				.HasColumnType("NUMBER(38)")
-				.HasColumnName("PARENTID");
-			entity.Property(e => e.Stars)
-				.HasDefaultValueSql("5 ")
-				.HasColumnType("NUMBER(38)")
-				.HasColumnName("STARS");
-		});
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("ID");
+            entity.Property(e => e.Parentid)
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("PARENTID");
+            entity.Property(e => e.Stars)
+                .HasDefaultValueSql("5 ")
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("STARS");
+        });
 
-		modelBuilder.Entity<Testimonial>(entity =>
-		{
-			entity.HasKey(e => e.Id).HasName("SYS_C00325262");
+        modelBuilder.Entity<Testimonial>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("SYS_C00325262");
 
-			entity.ToTable("TESTIMONIAL");
+            entity.ToTable("TESTIMONIAL");
 
-			entity.Property(e => e.Id)
-				.ValueGeneratedOnAdd()
-				.HasColumnType("NUMBER(38)")
-				.HasColumnName("ID");
-			entity.Property(e => e.Message)
-				.HasMaxLength(500)
-				.IsUnicode(false)
-				.HasColumnName("MESSAGE");
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("ID");
+            entity.Property(e => e.Message)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("MESSAGE");
             entity.Property(e => e.Published)
                 .HasMaxLength(1)
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("PUBLISHED");
-			entity.Property(e => e.Userid)
-				.HasColumnType("NUMBER(38)")
-				.HasColumnName("USERID");
+            entity.Property(e => e.Userid)
+                .HasColumnType("NUMBER(38)")
+                .HasColumnName("USERID");
 
-			entity.Property(e => e.Sendtime)
-				.HasPrecision(6)
-				.HasColumnName("SENDTIME");
-		});
+            entity.Property(e => e.Sendtime)
+                .HasPrecision(6)
+                .HasColumnName("SENDTIME");
+        });
 
-		OnModelCreatingPartial(modelBuilder);
+        OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

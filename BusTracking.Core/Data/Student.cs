@@ -34,8 +34,9 @@ public partial class Student
     public decimal? Parentid { get; set; }
 
     public decimal? Statusid { get; set; }
+	public decimal? Currenttrip { get; set; }
 
-    public virtual ICollection<Absence> Absences { get; set; } = new List<Absence>();
+	public virtual ICollection<Absence> Absences { get; set; } = new List<Absence>();
 
     public virtual ICollection<Notification> Notifications { get; } = new List<Notification>();
 
