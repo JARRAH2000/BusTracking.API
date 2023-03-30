@@ -15,5 +15,7 @@ namespace BusTracking.Core.Repository
 		int CreateParent(Parent parent);
 		void DeleteParent(int id);
 		IEnumerable<Parent?> GetParentByName(string pName);
+
+		Task<Parent?> GetParentByUserId(int userId);
 	}
 }

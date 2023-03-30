@@ -26,9 +26,9 @@ namespace BusTracking.API.Controllers
 			return _tripService.GetTripById(id);
 		}
 		[HttpPost("CreateTrip")]
-		public int CreateTrip(Trip trip)
+		public async Task<int> CreateTrip(Trip trip)
 		{
-			return _tripService.CreateTrip(trip);
+			return await _tripService.CreateTrip(trip);
 		}
 		[HttpPut("UpdateTrip")]
 		public void UpdateTrip(Trip trip)
@@ -59,6 +59,12 @@ namespace BusTracking.API.Controllers
 		public Task<Trip?> GetTripStudentsById(int id)
 		{
 			return _tripService.GetTripStudentsById(id);
+		}
+
+		[HttpPut("EndTrip")]
+		public async Task EndTrip(Trip trip)
+		{
+			await _tripService.EndTrip(trip);
 		}
 	}
 }

@@ -9,8 +9,10 @@ namespace BusTracking.Core.Repository
 	public interface ITripStudentRepository
 	{
 		IEnumerable<Tripstudent?> GetAllTripStudents();
+
+		Task<IEnumerable<Tripstudent?>> GetTripStudentsByTripId(int tripId);
 		Tripstudent? GetTripStudentById(int id);
-		void CreateTripStudent(Tripstudent tripstudent);
+		Task CreateTripStudent(Tripstudent tripstudent);
 		void UpdateTripStudent(Tripstudent tripstudent);
 		void DeleteTripStudent(int id);
 	}

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Data;
 using BusTracking.Core.DTO;
 using System.Security.AccessControl;
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BusTracking.Infra.Repository
 {
@@ -29,7 +31,7 @@ namespace BusTracking.Infra.Repository
 			DynamicParameters parameters = new DynamicParameters(new { TRIPID = id });
 			return _dbContext.Connection.Query<Trip?>("TRIP_PACKAGE.GET_TRIP_BY_ID", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 		}
-		public int CreateTrip(Trip trip)
+		public async Task<int> CreateTrip(Trip trip)
 		{
 			DynamicParameters parameters = new DynamicParameters(new
 			{
@@ -44,7 +46,7 @@ namespace BusTracking.Infra.Repository
 				DIRID = trip.Directionid,
 				TRIPID = trip.Id
 			});
-			_dbContext.Connection.Execute("TRIP_PACKAGE.CREATE_TRIP", parameters, commandType: CommandType.StoredProcedure);
+			await _dbContext.Connection.ExecuteAsync("TRIP_PACKAGE.CREATE_TRIP", parameters, commandType: CommandType.StoredProcedure);
 			return (int)parameters.Get<decimal>("TRIPID");
 		}
 		public void UpdateTrip(Trip trip)
@@ -104,6 +106,19 @@ namespace BusTracking.Infra.Repository
 				return tp;
 			});
 			return trips.FirstOrDefault();
+		}
+
+		public async Task EndTrip(Trip trip)
+		{
+			DynamicParameters parameters = new DynamicParameters(new
+			{
+				ENDTRIP = trip.Endtime,
+				LAT = trip.Latitude,
+				LNG = trip.Longitude,
+				TRIPID = trip.Id
+			});
+			await _dbContext.Connection.ExecuteAsync("TRIP_PACKAGE.END_TRIP", parameters, commandType: CommandType.StoredProcedure);
+
 		}
 
 	}

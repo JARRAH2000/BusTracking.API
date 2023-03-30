@@ -44,6 +44,11 @@ namespace BusTracking.API.Controllers
 		{
 			return await _driverService.GetDriverWithTripsById(id);
 		}
+		[HttpGet("GetDriverByUserId/{userId}")]
+		public async Task<Driver?> GetDriverByUserId(int userId)
+		{
+			return await _driverService.GetDriverByUserId(userId);
+		}
 		[HttpPost("CreateDriver")]
 		public int CreateDriver(Driver driver)
 		{

@@ -38,8 +38,9 @@ namespace BusTracking.Infra.Repository
 		public async Task<Parent?> GetParentAndStudentsById(int id)
 		{
 			DynamicParameters parameters = new DynamicParameters(new { PARID = id });
-			IEnumerable<Parent> parents = await _dbContext.Connection.QueryAsync<Parent, Student, Parent>("PARENT_PACKAGE.GET_PARENT_AND_STUDENTS_BY_ID", (parent, student) =>
+			IEnumerable<Parent> parents = await _dbContext.Connection.QueryAsync<Parent, Student, Studentstatus, Parent>("PARENT_PACKAGE.GET_PARENT_AND_STUDENTS_BY_ID", (parent, student, studentstatus) =>
 			{
+				student.Status = studentstatus;
 				parent.Students.Add(student);
 				return parent;
 			},
@@ -85,6 +86,20 @@ namespace BusTracking.Infra.Repository
 				return parent;
 			});
 			return parents;
+		}
+
+		public async Task<Parent?> GetParentByUserId(int userId)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { UID = userId });
+			IEnumerable<Parent?> parents = await _dbContext.Connection.QueryAsync<Parent?, User?, Login?, Parent?>("PARENT_PACKAGE.GET_PARENT_BY_USER_ID", (parent, user, login) =>
+			{
+				if (parent == null) return parent;
+				parent.User = user;
+				if (parent.User != null && login != null) parent.User.Logins = new List<Login> { login };
+				return parent;
+
+			}, splitOn: "Id", param: parameters, commandType: CommandType.StoredProcedure);
+			return parents.FirstOrDefault();
 		}
 	}
 }

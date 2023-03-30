@@ -57,8 +57,11 @@ namespace BusTracking.Infra.Repository
 		public async Task<Student?> GetStudentAbsenceById(int id)
 		{
 			DynamicParameters parameters = new DynamicParameters(new { STUDID = id });
-			IEnumerable<Student> students = await _dbContext.Connection.QueryAsync<Student, Absence, Student>("STUDENT_PACKAGE.GET_STUDENT_ABSENCE_BY_ID", (student, absence) =>
+			IEnumerable<Student> students = await _dbContext.Connection.QueryAsync<Student, Absence,Teacher,User,Login, Student>("STUDENT_PACKAGE.GET_STUDENT_ABSENCE_BY_ID", (student, absence,teacher,user,login) =>
 			{
+				user.Logins = new List<Login> { login };
+				teacher.User = user;
+				absence.Teacher = teacher;
 				student.Absences.Add(absence);
 				return student;
 			},
@@ -132,10 +135,58 @@ namespace BusTracking.Infra.Repository
 			});
 			_dbContext.Connection.Execute("STUDENT_PACKAGE.UPDATE_STUDENT", parameters, commandType: CommandType.StoredProcedure);
 		}
+		public async Task UpdateStudentStatusInTrip(Student student)//New
+		{
+			DynamicParameters parameters = new DynamicParameters(new
+			{
+				STUDENTID = student.Id,
+				STATE = student.Statusid,
+				CURTRIP = student.Currenttrip
+			});
+			_dbContext.Connection.Execute("STUDENT_PACKAGE.UPDATE_STUDENT_STATUS", parameters, commandType: CommandType.StoredProcedure);
+			if (student.Statusid == 1 && student.Inhomenotify == "Y")
+			{
+				//In home email
+			}
+			else if (student.Statusid == 21 && student.Inschoolnotify == "Y")
+			{
+				//In school email
+			}
+			else if (student.Statusid == 22 && student.Tohomenotify == "Y")
+			{
+				//To home email
+			}
+			else if (student.Statusid == 23 && student.Toschoolnotify == "Y")
+			{
+				//To school email
+			}
+			else if (student.Statusid == 24 && student.Absencenotify == "Y")
+			{
+				//absence email
+			}
+			else if (student.Statusid == 25 && student.Busnotify == "Y")
+			{
+				//bus email
+			}
+		}
 		public void DeleteStudent(int id)
 		{
 			DynamicParameters parameters = new DynamicParameters(new { STUDENTID = id });
 			_dbContext.Connection.Execute("STUDENT_PACKAGE.DELETE_STUDENT", parameters, commandType: CommandType.StoredProcedure);
 		}
+
+
+		public async Task<IEnumerable<Student?>> GetAllAbsentStudents()
+		{
+			return await _dbContext.Connection.QueryAsync<Student?, Parent?, User?, Login?, Student?>("STUDENT_PACKAGE.GET_ALL_ABSENT_STUDENTS", (student, parent, user, login) =>
+			{
+				if (student == null) return student;
+				if (login != null && user != null) user.Logins = new List<Login> { login };
+				if (parent != null) parent.User = user;
+				if (parent != null) student.Parent = parent;
+				return student;
+			}, splitOn: "Id", commandType: CommandType.StoredProcedure);
+		}
+
 	}
 }

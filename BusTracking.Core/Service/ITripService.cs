@@ -12,7 +12,7 @@ namespace BusTracking.Core.Service
 	{
 		IEnumerable<Trip?> GetAllTrips();
 		Trip? GetTripById(int id);
-		int CreateTrip(Trip trip);
+		Task<int> CreateTrip(Trip trip);
 		void UpdateTrip(Trip trip);
 		void DeleteTrip(int id);
 		TripDetails? GetTripDetails(int id);
@@ -20,6 +20,7 @@ namespace BusTracking.Core.Service
 		IEnumerable<TripDetails?> GetTripsByDate(DateTime date);
 		IEnumerable<TripDetails?> GetTripsByDateInterval(DateInterval dateInterval);
 		Task<Trip?> GetTripStudentsById(int id);
+		Task EndTrip(Trip trip);
 
 	}
 }

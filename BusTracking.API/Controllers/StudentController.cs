@@ -44,11 +44,24 @@ namespace BusTracking.API.Controllers
 		{
 			_studentService.UpdateStudent(student);
 		}
+		[HttpPut("UpdateStudentStatusInTrip")]
+		public async Task UpdateStudentStatusInTrip(Student student)//New
+		{
+			await _studentService.UpdateStudentStatusInTrip(student);
+		}
 		[HttpDelete("DeleteStudent/{id}")]
 		public void DeleteStudent(int id)
 		{
 			_studentService.DeleteStudent(id);
 		}
+		[HttpGet("GetAllAbsentStudents")]
+		public async Task<IEnumerable<Student?>> GetAllAbsentStudents()
+		{
+			return await _studentService.GetAllAbsentStudents();
+		}
+
+
+
 		[HttpPost("UploadStudentImage")]
 		public Student UploadStudentImage()
 		{

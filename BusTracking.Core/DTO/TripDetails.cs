@@ -12,7 +12,9 @@ namespace BusTracking.Core.DTO
 		public string? TeacherEmail { get; set; }
 		public string? TeacherPhone { get; set; }
 		public string? DriverName { get; set; }
-		public string? TripDirction { get; set; }
+		public string? TripDirection { get; set; }
+		public string? Longitude { get; set; }
+		public string? Latitude { get; set; }
 		public TimeSpan? TripStartTime { get; set; }
 		public int BusCapacity { get; set; }
 		public string? BusRegisterPlate { get; set; }

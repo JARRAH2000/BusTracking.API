@@ -25,9 +25,9 @@ namespace BusTracking.Infra.Service
 		{
 			return _tripRepository.GetTripById(id);
 		}
-		public int CreateTrip(Trip trip)
+		public async Task<int> CreateTrip(Trip trip)
 		{
-			return _tripRepository.CreateTrip(trip);
+			return await _tripRepository.CreateTrip(trip);
 		}
 		public void UpdateTrip(Trip trip)
 		{
@@ -55,6 +55,11 @@ namespace BusTracking.Infra.Service
 		{
 			return _tripRepository.GetTripStudentsById(id);
 		}
+		public async Task EndTrip(Trip trip)
+		{
+			await _tripRepository.EndTrip(trip);
+		}
+
 
 	}
 }

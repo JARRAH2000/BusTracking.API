@@ -19,15 +19,20 @@ namespace BusTracking.API.Controllers
 		{
 			return _tripStudentService.GetAllTripStudents();
 		}
+		[HttpGet("GetTripStudentsByTripId/{tripId}")]
+		public async Task<IEnumerable<Tripstudent?>> GetTripStudentsByTripId(int tripId)
+		{
+			return await _tripStudentService.GetTripStudentsByTripId(tripId);
+		}
 		[HttpGet("GetTripStudentById/{id}")]
 		public Tripstudent? GetTripStudentById(int id)
 		{
 			return _tripStudentService.GetTripStudentById(id);
 		}
 		[HttpPost("CreateTripStudent")]
-		public void CreateTripStudent(Tripstudent tripstudent)
+		public async Task CreateTripStudent(Tripstudent tripstudent)
 		{
-			_tripStudentService.CreateTripStudent(tripstudent);
+			await _tripStudentService.CreateTripStudent(tripstudent);
 		}
 		[HttpPut("UpdateTripStudent")]
 		public void UpdateTripStudent(Tripstudent tripstudent)

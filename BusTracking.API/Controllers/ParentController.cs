@@ -44,5 +44,10 @@ namespace BusTracking.API.Controllers
 		{
 			return _parentService.GetParentByName(pName);
 		}
+		[HttpGet("GetParentByUserId/{userId}")]
+		public async Task<Parent?> GetParentByUserId(int userId)
+		{
+			return await _parentService.GetParentByUserId(userId);
+		}
 	}
 }

@@ -42,6 +42,9 @@ namespace BusTracking.Infra.Service
 		{
 			return _parentRepository.GetParentByName(pName);
 		}
-
+		public async Task<Parent?> GetParentByUserId(int userId)
+		{
+			return await _parentRepository.GetParentByUserId(userId);
+		}
 	}
 }

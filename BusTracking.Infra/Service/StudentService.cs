@@ -41,9 +41,18 @@ namespace BusTracking.Infra.Service
 		{
 			_studentRepository.UpdateStudent(student);
 		}
+		public async Task UpdateStudentStatusInTrip(Student student)//New
+		{
+			await _studentRepository.UpdateStudentStatusInTrip(student);
+		}
 		public void DeleteStudent(int id)
 		{
 			_studentRepository.DeleteStudent(id);
+		}
+
+		public async Task<IEnumerable<Student?>> GetAllAbsentStudents()
+		{
+			return await _studentRepository.GetAllAbsentStudents();
 		}
 	}
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Security.Cryptography;
+using Org.BouncyCastle.Crypto.Digests;
 
 namespace BusTracking.Infra.Repository
 {
@@ -63,11 +64,11 @@ namespace BusTracking.Infra.Repository
 		public async Task<Driver?> GetDriverById(int id)
 		{
 			DynamicParameters parameters = new DynamicParameters(new { DRIVERID = id });
-			IEnumerable<Driver?> drivers = await _dbContext.Connection.QueryAsync<Driver?, User?, Driver?>("DRIVER_PACKAGE.GET_DRIVER_BY_ID", (driver, user) =>
+			IEnumerable<Driver?> drivers = await _dbContext.Connection.QueryAsync<Driver?, User?, Login?, Driver?>("DRIVER_PACKAGE.GET_DRIVER_BY_ID", (driver, user, login) =>
 			{
 				if (driver == null) return driver;
 				driver.User = user;
-				if (driver.User != null) driver.User.Logins = _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList(); _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = driver.Userid }), commandType: CommandType.StoredProcedure).ToList();
+				if (driver.User != null && login != null) driver.User.Logins = new List<Login> { login };
 				return driver;
 			}, splitOn: "Id", param: parameters, commandType: CommandType.StoredProcedure);
 			return drivers.FirstOrDefault();
@@ -93,6 +94,20 @@ namespace BusTracking.Infra.Repository
 				dr.Trips = driver.Select(d => d.Trips.Single()).ToList();
 				return dr;
 			});
+			return drivers.FirstOrDefault();
+		}
+		public async Task<Driver?> GetDriverByUserId(int userId)
+		{
+			DynamicParameters parameters = new DynamicParameters(new { UID = userId });
+			IEnumerable<Driver?> drivers = await _dbContext.Connection.QueryAsync<Driver?, User?, Employeestatus?, Login?, Driver?>("DRIVER_PACKAGE.GET_DRIVER_BY_USER_ID", (driver, user, status, login) =>
+			{
+				if (driver == null) return driver;
+				driver.User = user;
+				driver.Status = status;
+				if (driver.User == null || login == null) return driver;
+				driver.User.Logins = new List<Login> { login };
+				return driver;
+			}, splitOn: "Id", param: parameters, commandType: CommandType.StoredProcedure);
 			return drivers.FirstOrDefault();
 		}
 		public int CreateDriver(Driver driver)

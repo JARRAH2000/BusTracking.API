@@ -16,6 +16,9 @@ namespace BusTracking.Core.Repository
 		Task<IEnumerable<Driver?>> GetExpiredLicenseDrivers();
 		Task<Driver?> GetDriverById(int id);
 		Task<Driver?> GetDriverWithTripsById(int id);
+
+		Task<Driver?> GetDriverByUserId(int userId);
+
 		int CreateDriver(Driver driver);
 		void UpdateDriver(Driver driver);
 		void DeleteDriver(int id);
