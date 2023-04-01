@@ -32,7 +32,9 @@ namespace BusTracking.Infra.Repository
 				PHONE = content.Telephone,
 				LOGO = content.Mainlogo,
 				GREET = content.Greeting,
-				GRAPH = content.Paragraph
+				GRAPH = content.Paragraph,
+				LAT = content.Latitude,
+				LNG = content.Longitude
 			});
 			_dbContext.Connection.Execute("CONTENT_PACKAGE.CREATE_CONTENT", parameters, commandType: CommandType.StoredProcedure);
 		}
@@ -48,7 +50,9 @@ namespace BusTracking.Infra.Repository
 				PHONE = content.Telephone,
 				LOGO = content.Mainlogo,
 				GREET = content.Greeting,
-				GRAPH = content.Paragraph
+				GRAPH = content.Paragraph,
+				LAT = content.Latitude,
+				LNG = content.Longitude
 			});
 			_dbContext.Connection.Execute("CONTENT_PACKAGE.UPDATE_CONTENT", parameters, commandType: CommandType.StoredProcedure);
 		}

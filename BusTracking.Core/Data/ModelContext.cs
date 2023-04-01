@@ -630,7 +630,7 @@ public partial class ModelContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("ABOUT");
             entity.Property(e => e.Email)
-                .HasMaxLength(256)
+                .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("EMAIL");
             entity.Property(e => e.Facebook)
@@ -641,12 +641,23 @@ public partial class ModelContext : DbContext
                 .HasMaxLength(256)
                 .IsUnicode(false)
                 .HasColumnName("GREETING");
-            entity.Property(e => e.Mainlogo)
+
+			entity.Property(e => e.Latitude)
+				.HasMaxLength(50)
+				.IsUnicode(false)
+				.HasColumnName("LATITUDE");
+
+			entity.Property(e => e.Longitude)
+				.HasMaxLength(50)
+				.IsUnicode(false)
+				.HasColumnName("LONGITUDE");
+
+			entity.Property(e => e.Mainlogo)
                 .HasMaxLength(256)
                 .IsUnicode(false)
                 .HasColumnName("MAINLOGO");
             entity.Property(e => e.Paragraph)
-                .HasMaxLength(256)
+                .HasMaxLength(500)
                 .IsUnicode(false)
                 .HasColumnName("PARAGRAPH");
             entity.Property(e => e.Telephone)

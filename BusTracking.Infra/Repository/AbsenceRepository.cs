@@ -12,6 +12,7 @@ using BusTracking.Core.Mail;
 using BusTracking.Core.DTO;
 using BusTracking.Infra.Service;
 using static Dapper.SqlMapper;
+using System.Drawing.Printing;
 
 namespace BusTracking.Infra.Repository
 {
@@ -19,10 +20,14 @@ namespace BusTracking.Infra.Repository
 	{
 		private readonly IDbContext _dbContext;
 		private readonly IMailCredentials _mailCredentials;
-		public AbsenceRepository(IDbContext dbContext,IMailCredentials mailCredentials)
+
+
+		private readonly IMailSender _mailSender;
+		public AbsenceRepository(IDbContext dbContext,IMailCredentials mailCredentials,IMailSender mailSender)
 		{
 			_dbContext = dbContext;
 			_mailCredentials = mailCredentials;
+			_mailSender = mailSender;
 		}
 		public IEnumerable<Absence?> GetAllAbsences()
 		{
@@ -59,8 +64,38 @@ namespace BusTracking.Infra.Repository
 					return student;
 				}, splitOn: "Id", param: param, commandType: CommandType.StoredProcedure);
 				Student? student = students.FirstOrDefault();
-				if (student != null && student.Absencenotify == "Y")
+
+
+				DynamicParameters parameters2 = new DynamicParameters(new { TEACHERID = absence.Teacherid });
+				IEnumerable<Teacher?> teachers = _dbContext.Connection.Query<Teacher?>("TEACHER_PACKAGE.GET_TEACHER_BY_ID", parameters2, commandType: CommandType.StoredProcedure);
+
+				teachers = teachers.Select(teacher =>
 				{
+					if (teacher == null) return null;
+					teacher.User = _dbContext.Connection.Query<User?>("USER_PACKAGE.GET_USER_BY_ID", new DynamicParameters(new { UID = teacher.Userid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+					if (teacher.User != null) teacher.User.Logins = _dbContext.Connection.Query<Login>("LOGIN_PACKAGE.GET_EMAIL_BY_USER_ID", new DynamicParameters(new { UID = teacher.Userid }), commandType: CommandType.StoredProcedure).ToList();
+					teacher.Status = _dbContext.Connection.Query<Employeestatus?>("EMPLOYEESTATUS_PACKAGE.GET_STATUS_BY_ID", new DynamicParameters(new { SID = teacher.Statusid }), commandType: CommandType.StoredProcedure).FirstOrDefault();
+					teacher.Trips = _dbContext.Connection.Query<Trip>("TRIP_PACKAGE.GET_TEACHER_TRIPS", new DynamicParameters(new { TCHID = teacher.Id }), commandType: CommandType.StoredProcedure).ToList();
+					return teacher;
+				});
+				Teacher? teacher= teachers.FirstOrDefault();
+
+
+
+				if (student != null && teacher != null && student.Absencenotify == "Y")
+				{
+					AbsenceEmail absenceEmail = new AbsenceEmail
+					{
+						ParentName = student?.Parent?.User?.Firstname,
+						ParentEmail = student?.Parent?.User?.Logins?.FirstOrDefault()?.Email,
+
+						ParentSex = student?.Parent?.User?.Sex,
+						StudentName = student?.Name,
+						TeacherName = teacher?.User?.Firstname + " " + teacher?.User?.Lastname,
+
+						AbsenceDate = absence.Checkingtime
+					};
+					await _mailSender.AbsenceEmailAsync(absenceEmail);
 					//Absence email Notification add here after checks that parent email is valid
 				}
 			}

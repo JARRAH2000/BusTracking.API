@@ -20,6 +20,7 @@ public partial class Content
     public string? Mainlogo { get; set; }
 
     public string? Greeting { get; set; }
-
     public string? Paragraph { get; set; }
+    public string? Longitude { get; set; }
+    public string? Latitude { get; set; }
 }

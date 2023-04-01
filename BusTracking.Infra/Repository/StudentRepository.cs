@@ -12,15 +12,19 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Collections.ObjectModel;
+using BusTracking.Core.Mail;
+using BusTracking.Infra.Service;
 
 namespace BusTracking.Infra.Repository
 {
 	public class StudentRepository:IStudentRepository
 	{
 		private readonly IDbContext _dbContext;
-		public StudentRepository(IDbContext dbContext)
+		private readonly IMailSender _mailSender;
+		public StudentRepository(IDbContext dbContext,IMailSender mailSender)
 		{
 			_dbContext = dbContext;
+			_mailSender = mailSender;
 		}
 		public async Task<IEnumerable<Student?>> GetAllStudents()
 		{
@@ -135,7 +139,7 @@ namespace BusTracking.Infra.Repository
 			});
 			_dbContext.Connection.Execute("STUDENT_PACKAGE.UPDATE_STUDENT", parameters, commandType: CommandType.StoredProcedure);
 		}
-		public async Task UpdateStudentStatusInTrip(Student student)//New
+		public async Task UpdateStudentStatusInTrip(Student student)
 		{
 			DynamicParameters parameters = new DynamicParameters(new
 			{
@@ -144,29 +148,62 @@ namespace BusTracking.Infra.Repository
 				CURTRIP = student.Currenttrip
 			});
 			_dbContext.Connection.Execute("STUDENT_PACKAGE.UPDATE_STUDENT_STATUS", parameters, commandType: CommandType.StoredProcedure);
-			if (student.Statusid == 1 && student.Inhomenotify == "Y")
+			
+			
+			DynamicParameters param = new DynamicParameters(new { STUDENTID = student.Id });
+			IEnumerable<Student?> students = await _dbContext.Connection.QueryAsync<Student?, Studentstatus?, Parent?, User?, Login?, Student?>("STUDENT_PACKAGE.GET_STUDENT_BY_ID", (student, studentStatus, parent, user, login) =>
+			{
+				if (student == null) return student;
+				student.Status = studentStatus;
+				student.Parent = parent;
+				if (student.Parent == null) return student;
+				student.Parent.User = user;
+				if (student.Parent.User != null && login != null)
+					student.Parent.User.Logins = new List<Login> { login };
+				return student;
+			}, splitOn: "Id", param: param, commandType: CommandType.StoredProcedure);
+
+			//if (students == null || !students.Any() || students.FirstOrDefault()?.Parent?.User?.Logins?.FirstOrDefault() == null) return;
+
+			User? parentUser = students.FirstOrDefault()?.Parent?.User;
+			string? studentName = students.FirstOrDefault()?.Name;
+
+			if (parentUser?.Logins?.FirstOrDefault()?.Email == null) return;
+			if (student.Statusid == 1)
 			{
 				//In home email
+				await _mailSender.SendEmailAsync(parentUser?.Logins?.FirstOrDefault()?.Email, "Student In Home", $"{(parentUser?.Sex == "M" ? "Mr" : "Ms")} {parentUser?.Firstname}, your son: {studentName} is in Home now");
+
 			}
-			else if (student.Statusid == 21 && student.Inschoolnotify == "Y")
+			else if (student.Statusid == 21)
 			{
 				//In school email
+				await _mailSender.SendEmailAsync(parentUser?.Logins?.FirstOrDefault()?.Email, "Student In School", $"{(parentUser?.Sex == "M" ? "Mr" : "Ms")} {parentUser?.Firstname}, your son: {studentName} is in School now");
+
 			}
-			else if (student.Statusid == 22 && student.Tohomenotify == "Y")
+			else if (student.Statusid == 22 )
 			{
 				//To home email
+				await _mailSender.SendEmailAsync(parentUser?.Logins?.FirstOrDefault()?.Email, "Student coming to Home", $"{(parentUser?.Sex == "M" ? "Mr" : "Ms")} {parentUser?.Firstname}, your son: {studentName} is coming to Home now");
+
 			}
-			else if (student.Statusid == 23 && student.Toschoolnotify == "Y")
+			else if (student.Statusid == 23)
 			{
 				//To school email
+				await _mailSender.SendEmailAsync(parentUser?.Logins?.FirstOrDefault()?.Email, "Student coming to School", $"{(parentUser?.Sex == "M" ? "Mr" : "Ms")} {parentUser?.Firstname}, your son: {studentName} is coming to School now");
+
 			}
-			else if (student.Statusid == 24 && student.Absencenotify == "Y")
+			else if (student.Statusid == 24 )
 			{
 				//absence email
+				await _mailSender.SendEmailAsync(parentUser?.Logins?.FirstOrDefault()?.Email, "Student Absence", $"{(parentUser?.Sex == "M" ? "Mr" : "Ms")} {parentUser?.Firstname}, your son: {studentName} will be considered as absent unless he comes to school before absence counting time");
+
 			}
-			else if (student.Statusid == 25 && student.Busnotify == "Y")
+			else if (student.Statusid == 25 )
 			{
 				//bus email
+				await _mailSender.SendEmailAsync(parentUser?.Logins?.FirstOrDefault()?.Email, "Bus is coming", $"{(parentUser?.Sex == "M" ? "Mr" : "Ms")} {parentUser?.Firstname},school bus is coming for take your son: {studentName} is to school");
+
 			}
 		}
 		public void DeleteStudent(int id)

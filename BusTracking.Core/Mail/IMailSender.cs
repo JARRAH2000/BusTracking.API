@@ -9,7 +9,7 @@ namespace BusTracking.Core.Mail
 {
 	public interface IMailSender
 	{
-		Task SendEmailAsync(string recipient, string subject, string body);
+		Task SendEmailAsync(string? recipient, string subject, string body);
 
 		Task AbsenceEmailAsync(AbsenceEmail? absenceEmail);
 

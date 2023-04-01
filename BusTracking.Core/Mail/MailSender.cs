@@ -21,8 +21,9 @@ namespace BusTracking.Infra.Service
 		{
 			_mailCredentials = mailCredentials;
 		}
-		public async Task SendEmailAsync(string recipient, string subject, string body)
+		public async Task SendEmailAsync(string? recipient, string subject, string body)
 		{
+			if (recipient == null) return;
 			BodyBuilder bodyBuilder = new()
 			{
 				HtmlBody = body
@@ -46,9 +47,9 @@ namespace BusTracking.Infra.Service
 			if (absenceEmail == null) return;
 			BodyBuilder bodyBuilder = new()
 			{
-				HtmlBody = $"{(absenceEmail.ParentSex == "M" ? "Mr" : "Ms")} {absenceEmail.ParentName},\n" +
+				HtmlBody = $"{(absenceEmail.ParentSex == "M" ? "Mr" : "Ms")}. {absenceEmail.ParentName},\n" +
 				$"We are going to tell you that your son: {absenceEmail.StudentName} {absenceEmail.ParentName} " +
-				$"was considered as an absent by teacher: {absenceEmail.TeacherName} for date: {absenceEmail.AbsenceDate}"
+				$"was considered as an absent by teacher: {absenceEmail.TeacherName} for date: {DateTime.Now.Date.Day}-{DateTime.Now.Date.Month}-{DateTime.Now.Date.Year}"
 			};
 			MimeMessage message = new()
 			{
@@ -66,7 +67,7 @@ namespace BusTracking.Infra.Service
 		}
 		//public Task TripEmailAsync(string recipient, string subject, string body)
 		//{
-
+			
 		//}
 	}
 }
