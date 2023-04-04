@@ -66,5 +66,10 @@ namespace BusTracking.API.Controllers
 		{
 			await _tripService.EndTrip(trip);
 		}
+		[HttpGet("CountOfTripsEachMonth")]
+		public async Task<IEnumerable<MonthlyTrips>> CountOfTripsEachMonth()
+		{
+			return await _tripService.CountOfTripsEachMonth();
+		}
 	}
 }

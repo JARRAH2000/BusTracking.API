@@ -60,6 +60,10 @@ namespace BusTracking.Infra.Service
 			await _tripRepository.EndTrip(trip);
 		}
 
+		public async Task<IEnumerable<MonthlyTrips>> CountOfTripsEachMonth()
+		{
+			return await _tripRepository.CountOfTripsEachMonth();
+		}
 
 	}
 }

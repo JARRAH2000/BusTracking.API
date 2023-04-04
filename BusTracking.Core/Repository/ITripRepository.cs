@@ -20,5 +20,7 @@ namespace BusTracking.Core.Repository
 		Task<Trip?> GetTripStudentsById(int id);
 
 		Task EndTrip(Trip trip);
+
+		Task<IEnumerable<MonthlyTrips>> CountOfTripsEachMonth();
 	}
 }

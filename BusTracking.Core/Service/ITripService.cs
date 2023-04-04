@@ -21,6 +21,7 @@ namespace BusTracking.Core.Service
 		IEnumerable<TripDetails?> GetTripsByDateInterval(DateInterval dateInterval);
 		Task<Trip?> GetTripStudentsById(int id);
 		Task EndTrip(Trip trip);
+		Task<IEnumerable<MonthlyTrips>> CountOfTripsEachMonth();
 
 	}
 }

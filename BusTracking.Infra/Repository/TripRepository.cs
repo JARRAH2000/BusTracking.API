@@ -127,5 +127,16 @@ namespace BusTracking.Infra.Repository
 
 		}
 
+		public async Task<IEnumerable<MonthlyTrips>> CountOfTripsEachMonth()
+		{
+			IEnumerable<MonthlyTrips>tripsEachMonth= await _dbContext.Connection.QueryAsync<MonthlyTrips>("TRIP_PACKAGE.COUNT_OF_TRIPS_EACH_MONTH", commandType: CommandType.StoredProcedure);
+			List<MonthlyTrips> trips = new List<MonthlyTrips>();
+			for (decimal i = 1; i <= 12; i++)
+			{
+				MonthlyTrips? trip = tripsEachMonth.FirstOrDefault(t => t.Month == i);
+				trips.Add(trip == null ? new MonthlyTrips { Month = i, CountOfTrips = 0 } : trip);
+			}
+			return trips;
+		}
 	}
 }
