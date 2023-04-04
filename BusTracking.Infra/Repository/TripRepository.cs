@@ -24,7 +24,13 @@ namespace BusTracking.Infra.Repository
 		}
 		public IEnumerable<Trip?> GetAllTrips()
 		{
-			return _dbContext.Connection.Query<Trip?>("TRIP_PACKAGE.GET_ALL_TRIPS", commandType: CommandType.StoredProcedure).ToList();
+			return _dbContext.Connection.Query<Trip?, Teacher?, User?, Trip?>("TRIP_PACKAGE.GET_ALL_TRIPS", (trip, teacher, user) =>
+			{
+				if (trip == null || teacher == null || user == null) return trip;
+				teacher.User = user;
+				trip.Teacher = teacher;
+				return trip;
+			},splitOn:"Id", commandType: CommandType.StoredProcedure).ToList();
 		}
 		public Trip? GetTripById(int id)
 		{

@@ -60,8 +60,6 @@ namespace BusTracking.API.Controllers
 			return await _studentService.GetAllAbsentStudents();
 		}
 
-
-
 		[HttpPost("UploadStudentImage")]
 		public Student UploadStudentImage()
 		{
